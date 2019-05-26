@@ -1,6 +1,6 @@
 namespace GameServer
 {
-    public interface IMoveStrategy
+    public interface IStrategy
     {
         void Execute();
     }

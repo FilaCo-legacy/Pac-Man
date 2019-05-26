@@ -1,3 +1,5 @@
+using GameServer.GameObjects;
+
 namespace GameServer
 {
     public interface IMapEntry
