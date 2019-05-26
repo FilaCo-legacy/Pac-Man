@@ -13,7 +13,5 @@ namespace GameServer.GameObjects
         public MoveDirection Direction { get; set; }
         
         public void Move() => MoveStrategy.Execute();
-
-        public async void MoveAsync() => await Task.Run(Move);
     }
 }
