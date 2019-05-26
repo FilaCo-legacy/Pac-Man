@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace GameServer.GameObjects
 {
     public class PacMan : GameObject, IMovable
@@ -8,6 +10,10 @@ namespace GameServer.GameObjects
 
         public IStrategy MoveStrategy { get; set; }
         
+        public MoveDirection Direction { get; set; }
+        
         public void Move() => MoveStrategy.Execute();
+
+        public async void MoveAsync() => await Task.Run(Move);
     }
 }
