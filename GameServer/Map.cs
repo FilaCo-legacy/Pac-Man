@@ -5,6 +5,12 @@ namespace GameServer
 {
     public class Map
     {
+        public static readonly MapPoint LeftUpperGhostRoom = new MapPoint(13, 11);
+
+        public const int GhostRoomWidth = 5;
+
+        public const int GhostRoomHeight = 3;
+        
         private static readonly Map Instance = new Map();
 
         public static Map GetInstance => Instance;

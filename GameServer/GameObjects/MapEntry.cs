@@ -7,7 +7,11 @@ namespace GameServer.GameObjects
     {
         private readonly Stack<GameObjectCode> _content;
 
-        public MapEntry() => _content = new Stack<GameObjectCode>();
+        public MapEntry()
+        {
+            _content = new Stack<GameObjectCode>();
+            _content.Push(GameObjectCode.Void);
+        }
 
         public void Push(GameObjectCode code)
         {

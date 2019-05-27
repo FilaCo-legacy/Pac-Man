@@ -4,7 +4,9 @@ namespace GameServer.GameObjects
     {
         Void,
         Wall,
+        Door,
         Food,
+        Energizer,
         Ghost,
         PacMan
     }
