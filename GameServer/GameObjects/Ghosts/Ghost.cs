@@ -8,14 +8,8 @@ namespace GameServer.GameObjects.Ghosts
 
         protected Ghost()
         {
-            
         }
 
-        public void Move()
-        {
-            
-        }
-        
         public abstract GameObjectCode DefaultCode { get; }
 
         public override GameObjectCode Code => State.Code;

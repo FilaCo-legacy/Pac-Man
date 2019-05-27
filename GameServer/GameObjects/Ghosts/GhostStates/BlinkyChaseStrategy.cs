@@ -1,4 +1,7 @@
-$HEADER$namespace $NAMESPACE$
+namespace GameServer.GameObjects.Ghosts.GhostStates
 {
-  public class $CLASS$ {$END$}
+    public class BlinkyChaseStrategy : ChaseState
+    {
+        
+    }
 }

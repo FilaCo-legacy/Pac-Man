@@ -6,12 +6,11 @@ namespace GameServer
     {
         public float Alpha { get; }
         
-        public GameObjectCode [,] MapCodes { get; }
+        public Map GameMap { get; }
 
-        public StepFinishedEventArgs(float alpha, GameObjectCode [,] mapCodes)
+        public StepFinishedEventArgs(float alpha)
         {
             Alpha = alpha;
-            MapCodes = mapCodes;
         }
     }
 }

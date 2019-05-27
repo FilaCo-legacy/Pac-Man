@@ -21,13 +21,13 @@ namespace GameServer.GameObjects
 
         public event DiedEventHandler Died;
         
+        private static readonly PacMan Instance = new PacMan();
+
+        public static PacMan GetInstance => Instance;
+        
         public IMoveStrategy MoveStrategy { get; set; }
         
         public MoveDirection Direction { get; set; }
-
-        public override GameObjectCode Code => GameObjectCode.Pac_Man;
-
-        public override void CollideWith(ICollidable other) => other.CollideWith(this);
 
         public void OnFoodEaten(object sender, FoodEatenEventArgs args)
         {
@@ -50,31 +50,5 @@ namespace GameServer.GameObjects
         }
         
         public void Move() => MoveStrategy.Move();
-
-        public void CollideWith(Food foodObj)
-        {
-            ChangeLocation();
-            CollideWithPurge();
-            OnFoodEaten(this, new FoodEatenEventArgs());
-        }
-        
-        public void CollideWith(Fruit fruitObj)
-        {
-            ChangeLocation();
-            CollideWithPurge();
-            OnFruitEaten(this, new FruitEatenEventArgs());
-        }
-        
-        public void CollideWith(Energizer energizerObj)
-        {
-            ChangeLocation();
-            CollideWithPurge();
-            OnEnergizerEaten(this, new EnergizerEatenEventArgs());
-        }
-
-        public void CollideWith(Ghost ghostObj)
-        {
-            
-        }
     }
 }

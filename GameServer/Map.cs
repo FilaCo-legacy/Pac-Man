@@ -15,50 +15,34 @@ namespace GameServer
 
         private readonly object _lock;
         
-        private readonly GameObject[,] _matrixMap;
+        private readonly MapEntry[,] _matrixMap;
 
-        public GameObject this[int row, int column]
+        public MapEntry this[int row, int column]
         {
             get
             {
-                if (row < 0 || row >= Height || column < 0 || column >= Width)
-                    return null;
-
                 lock (_lock)
                 {
+                    if (row < 0 || row >= Height || column < 0 || column >= Width)
+                        throw new Exception("Incorrect indexes");
+
+                
                     return _matrixMap[row, column];
                 }
             }
             set
             {
-                if (row < 0 || row >= Height || column < 0 || column >= Width)
-                    throw new Exception("Incorrect indexes");
-
                 lock (_lock)
                 {
+                    if (row < 0 || row >= Height || column < 0 || column >= Width)
+                        throw new Exception("Incorrect indexes");
+
+                
                     _matrixMap[row, column] = value;
                 }
             }
         }
-        
-        public Map()
-        {
-            _lock = new object();
-        }
 
-        public GameObjectCode[,] GetMapInfo()
-        {
-            var transMatrix = new GameObjectCode[Height, Width];
-
-            for (var i = 0; i < Height; ++i)
-            {
-                for (var j = 0; j < Width; ++j)
-                {
-                    transMatrix[i, j] = this[i, j].Code;
-                }
-            }
-
-            return transMatrix;
-        }
+        private Map() => _lock = new object();
     }
 }

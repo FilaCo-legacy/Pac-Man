@@ -1,6 +1,6 @@
 namespace GameServer.GameObjects.Ghosts.GhostStates
 {
-    public abstract class GhostState
+    public interface IGhostState
     {
         void Move();
         

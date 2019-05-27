@@ -12,14 +12,17 @@ namespace GameServer
     /// </summary>
     public class Scene
     {
+        private static readonly Scene Instance = new Scene();
+
+        public static Scene GetInstance => Instance;
+        
         /// <summary>
         /// Collection of actors
         /// </summary>
         private readonly ICollection <MovableGameObject> _actors;
         
-        public Map SceneMap { get; }
 
-        public Scene(Map sceneMap)
+        public Scene()
         {
             _actors = new List<MovableGameObject>
             {
@@ -29,8 +32,6 @@ namespace GameServer
                 new Inky(),
                 new Pinky()
             };
-
-            SceneMap = sceneMap;
         }
 
         /// <summary>
