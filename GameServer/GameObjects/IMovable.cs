@@ -6,9 +6,7 @@ namespace GameServer.GameObjects
     {
         MoveDirection Direction { get; }
         
-        int Row { get; set; }
-        
-        int Column { get; set; }
+        MapPoint Position { get; set; }
         
         event MovedEventHandler Moved;
     }

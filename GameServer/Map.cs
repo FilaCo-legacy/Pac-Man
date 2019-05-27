@@ -30,18 +30,9 @@ namespace GameServer
                     return _matrixMap[row, column];
                 }
             }
-            set
-            {
-                lock (_lock)
-                {
-                    if (row < 0 || row >= Height || column < 0 || column >= Width)
-                        throw new Exception("Incorrect indexes");
-
-                
-                    _matrixMap[row, column] = value;
-                }
-            }
         }
+
+        public MapEntry this[MapPoint point] => this[point.Row, point.Column];
 
         private Map()
         {
