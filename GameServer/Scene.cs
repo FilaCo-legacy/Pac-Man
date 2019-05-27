@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using GameServer.GameObjects;
 using GameServer.GameObjects.Ghosts;
@@ -11,39 +12,37 @@ namespace GameServer
     /// </summary>
     public class Scene
     {
-        private static readonly Scene _instance = new Scene();
-
-        public static Scene GetInstance => _instance;
-        
         /// <summary>
-        /// Collection of tasks of actors move-delegates
+        /// Collection of actors
         /// </summary>
-        private readonly ICollection <Task> _actorsMove;
+        private readonly ICollection <IMovable> _actors;
+        
+        public Map SceneMap { get; }
 
-        public Scene()
+        public Scene(Map sceneMap)
         {
-            _actorsMove = new List<Task>
+            _actors = new List<IMovable>
             {
-                new Task(PacMan.GetInstance.Move),
-                new Task(Blinky.GetInstance.Move),
-                new Task(Inky.GetInstance.Move),
-                new Task(Pinky.GetInstance.Move),
-                new Task(Clyde.GetInstance.Move)
+                new PacMan(),
+                new Blinky(),
+                new Clyde(),
+                new Inky(),
+                new Pinky()
             };
 
+            SceneMap = sceneMap;
         }
 
         /// <summary>
         /// Starts every actor move action and wait until all of them will end
         /// </summary>
-        public async void StepAsync()
+        public void Update()
         {
-            foreach (var curActorMove in _actorsMove)
-            {
-                curActorMove.Start();
-            }
+            var actorsMove = new List<Task>();
+            
+            actorsMove.AddRange(_actors.Select(curActor => Task.Run(curActor.Move)));
 
-            await Task.WhenAll(_actorsMove);
+            Task.WhenAll(actorsMove).Wait();
         }
     }
 }

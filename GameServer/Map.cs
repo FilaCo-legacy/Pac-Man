@@ -1,18 +1,15 @@
 ﻿using System;
+using GameServer.GameObjects;
 
 namespace GameServer
 {
     public class Map
     {
-        private static readonly Map _instance = new Map();
+        public int Width { get; set; }
 
-        public static Map GetInstance => _instance;
+        public int Height { get; set; }
 
-        public const int Width = 28;
-
-        public const int Height = 31;
-
-        private object _lock;
+        private readonly object _lock;
         
         private readonly IMapEntry[,] _matrixMap;
 
@@ -23,7 +20,10 @@ namespace GameServer
                 if (row < 0 || row >= Height || column < 0 || column >= Width)
                     throw new Exception("Incorrect indexes");
 
-                return _matrixMap[row, column];
+                lock (_lock)
+                {
+                    return _matrixMap[row, column];
+                }
             }
             set
             {
@@ -39,7 +39,20 @@ namespace GameServer
         
         public Map()
         {
-            _matrixMap = new IMapEntry[Height, Width];
+            _lock = new object();
+        }
+
+        public GameObjectCode[,] GetMapInfo()
+        {
+            var transMatrix = new GameObjectCode[Height, Width];
+
+            for (var i = 0; i < Height; ++i)
+            {
+                for (var j = 0; j < Width; ++j)
+                    transMatrix[i, j] = this[i, j].Contains.Code;
+            }
+
+            return transMatrix;
         }
     }
 }
