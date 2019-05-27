@@ -15,13 +15,13 @@ namespace GameServer
         /// <summary>
         /// Collection of actors
         /// </summary>
-        private readonly ICollection <IMovable> _actors;
+        private readonly ICollection <MovableGameObject> _actors;
         
         public Map SceneMap { get; }
 
         public Scene(Map sceneMap)
         {
-            _actors = new List<IMovable>
+            _actors = new List<MovableGameObject>
             {
                 new PacMan(),
                 new Blinky(),

@@ -12,6 +12,7 @@ namespace GameServer.GameObjects
         Clyde,
         Inky,
         Pinky,
-        Ghost_Frightened
+        Ghost_Frightened,
+        Ghost_Respawing
     }
 }

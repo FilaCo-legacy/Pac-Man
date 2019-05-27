@@ -1,12 +1,26 @@
+using System.Diagnostics;
+
 namespace GameServer.GameObjects.Ghosts.GhostStates
 {
     public class FrightenedState : IGhostState
     {
+        private Stopwatch _sw;
+
+        private Ghost _ghost;
+        
+        public GameObjectCode Code => GameObjectCode.Ghost_Frightened;
+        
         public void Move()
         {
-            throw new System.NotImplementedException();
+            
         }
 
-        public GameObjectCode Code => GameObjectCode.Ghost_Frightened;
+        public FrightenedState(Ghost ghost)
+        {
+            _sw = new Stopwatch();
+            _ghost = ghost;
+            
+            _sw.Start();
+        }
     }
 }

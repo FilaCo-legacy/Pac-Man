@@ -1,6 +1,6 @@
 namespace GameServer.GameObjects.Ghosts.GhostStates
 {
-    public abstract class ChaseState:IGhostState
+    public class RespawnState : IGhostState
     {
         public void Move()
         {
@@ -8,5 +8,10 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
         }
 
         public GameObjectCode Code { get; }
+        
+        public void CollideWith(PacMan pacMan)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

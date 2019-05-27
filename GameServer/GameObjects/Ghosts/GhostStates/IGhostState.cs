@@ -5,5 +5,7 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
         void Move();
         
         GameObjectCode Code { get; }
+
+        void CollideWith(PacMan pacMan);
     }
 }
