@@ -2,10 +2,8 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
 {
     public interface IGhostState
     {
-        void Move();
+        void Act();
         
-        GameObjectCode Code { get; }
-
-        void CollideWith(PacMan pacMan);
+        MoveDirection Direction { get; }
     }
 }

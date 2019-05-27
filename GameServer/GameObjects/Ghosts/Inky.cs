@@ -5,7 +5,5 @@ namespace GameServer.GameObjects.Ghosts
         private static readonly Inky Instance = new Inky();
 
         public static Inky GetInstance => Instance;
-        
-        public override GameObjectCode DefaultCode => GameObjectCode.Inky;
     }
 }

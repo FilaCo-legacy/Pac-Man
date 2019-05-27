@@ -19,18 +19,18 @@ namespace GameServer
         /// <summary>
         /// Collection of actors
         /// </summary>
-        private readonly ICollection <MovableGameObject> _actors;
+        private readonly ICollection <IActor> _actors;
         
 
         public Scene()
         {
-            _actors = new List<MovableGameObject>
+            _actors = new List<IActor>
             {
-                new PacMan(),
-                new Blinky(),
-                new Clyde(),
-                new Inky(),
-                new Pinky()
+                PacMan.GetInstance,
+                Blinky.GetInstance,
+                Clyde.GetInstance,
+                Inky.GetInstance,
+                Pinky.GetInstance
             };
         }
 
@@ -41,7 +41,7 @@ namespace GameServer
         {
             var actorsMove = new List<Task>();
             
-            actorsMove.AddRange(_actors.Select(curActor => Task.Run(curActor.Move)));
+            actorsMove.AddRange(_actors.Select(curActor => Task.Run(curActor.Act)));
 
             Task.WhenAll(actorsMove).Wait();
         }

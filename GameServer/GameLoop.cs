@@ -10,7 +10,6 @@ namespace GameServer
         
         public event StepFinishedEventHandler StepFinished;
 
-        private readonly Scene _scene;
         public float DeltaTime => 1.0f / FramePerSecond;
         
         public float FramePerSecond { get; set; }
@@ -18,7 +17,6 @@ namespace GameServer
         public GameLoop(Map sceneMap)
         {
             FramePerSecond = 60;
-            _scene = new Scene(sceneMap);
         }
 
         public void Execute()
@@ -39,11 +37,11 @@ namespace GameServer
 
                 while (accumulator > DeltaTime)
                 {
-                    _scene.Update();
+                    Scene.GetInstance.Update();
                     accumulator -= DeltaTime;
                 }
                 
-                OnStepFinished(this, new StepFinishedEventArgs(accumulator/DeltaTime, _scene.SceneMap.GetMapInfo()));
+                OnStepFinished(this, new StepFinishedEventArgs(accumulator/DeltaTime));
             }
         }
 

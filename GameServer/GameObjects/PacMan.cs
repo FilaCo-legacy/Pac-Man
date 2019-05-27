@@ -1,54 +1,33 @@
+using System;
 using System.Threading.Tasks;
 using GameServer.GameObjects.Ghosts;
 
 namespace GameServer.GameObjects
 {
-    public class PacMan : MovableGameObject
+    public class PacMan : IActor, IMovable
     {
-        public delegate void FoodEatenEventHandler(object sender, FoodEatenEventArgs args);
-
-        public delegate void FruitEatenEventHandler(object sender, FruitEatenEventArgs args);
-
-        public delegate void EnergizerEatenEventHandler(object sender, EnergizerEatenEventArgs args);
-
-        public delegate void DiedEventHandler(object sender, DiedEventArgs args);
-
-        public event FoodEatenEventHandler FoodEaten;
-
-        public event FruitEatenEventHandler FruitEaten;
-
-        public event EnergizerEatenEventHandler EnergizerEaten;
-
-        public event DiedEventHandler Died;
-        
         private static readonly PacMan Instance = new PacMan();
 
         public static PacMan GetInstance => Instance;
-        
-        public IMoveStrategy MoveStrategy { get; set; }
-        
-        public MoveDirection Direction { get; set; }
 
-        public void OnFoodEaten(object sender, FoodEatenEventArgs args)
-        {
-            FoodEaten?.Invoke(sender, args);
-        }
+        public MoveDirection Direction { get; }
+        
+        public int Row { get; set; }
+        
+        public int Column { get; set; }
+        
+        public event MovedEventHandler Moved;
 
-        public void OnFruitEaten(object sender, FruitEatenEventArgs args)
+        private void OnMoved(IMovable sender, MovedEventArgs args)
         {
-            FruitEaten?.Invoke(sender, args);
+            Moved?.BeginInvoke(sender, args,null, null);
         }
         
-        public void OnEnergizerEaten(object sender, EnergizerEatenEventArgs args)
+        public void Act()
         {
-            EnergizerEaten?.Invoke(sender, args);
+            throw new NotImplementedException();
+            
+            OnMoved(this, new MovedEventArgs(GameObjectCode.PacMan));
         }
-        
-        public void OnDied(object sender, DiedEventArgs args)
-        {
-            Died?.Invoke(sender, args);
-        }
-        
-        public void Move() => MoveStrategy.Move();
     }
 }

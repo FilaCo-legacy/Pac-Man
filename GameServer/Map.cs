@@ -8,14 +8,14 @@ namespace GameServer
         private static readonly Map Instance = new Map();
 
         public static Map GetInstance => Instance;
-        
-        public int Width { get; set; }
-
-        public int Height { get; set; }
 
         private readonly object _lock;
         
         private readonly MapEntry[,] _matrixMap;
+
+        public const int Width = 28;
+
+        public const int Height = 31;
 
         public MapEntry this[int row, int column]
         {
@@ -43,6 +43,10 @@ namespace GameServer
             }
         }
 
-        private Map() => _lock = new object();
+        private Map()
+        {
+            _matrixMap = new MapEntry[Height,Width];
+            _lock = new object();
+        }
     }
 }
