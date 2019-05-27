@@ -1,7 +1,3 @@
-using System;
-using System.Threading.Tasks;
-using GameServer.GameObjects.Ghosts;
-
 namespace GameServer.GameObjects
 {
     public class PacMan : IActor, IMovable
@@ -10,12 +6,10 @@ namespace GameServer.GameObjects
 
         public static PacMan GetInstance => Instance;
 
-        public MoveDirection Direction { get; }
+        public MoveDirection Direction { get; set; }
         
-        public int Row { get; set; }
-        
-        public int Column { get; set; }
-        
+        public MapPoint Position { get; set; }
+
         public event MovedEventHandler Moved;
 
         private void OnMoved(IMovable sender, MovedEventArgs args)
@@ -25,8 +19,6 @@ namespace GameServer.GameObjects
         
         public void Act()
         {
-            throw new NotImplementedException();
-            
             OnMoved(this, new MovedEventArgs(GameObjectCode.PacMan));
         }
     }

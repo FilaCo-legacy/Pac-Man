@@ -4,13 +4,14 @@ namespace GameServer
 {
     public class StepFinishedEventArgs
     {
-        public float Alpha { get; }
+        public double Alpha { get; }
         
-        public Map GameMap { get; }
+        public double ElapsedMilliseconds { get; }
 
-        public StepFinishedEventArgs(float alpha)
+        public StepFinishedEventArgs(double alpha, double elapsedMilliseconds)
         {
             Alpha = alpha;
+            ElapsedMilliseconds = elapsedMilliseconds;
         }
     }
 }

@@ -5,7 +5,7 @@ namespace GameServer
 {
     public struct MapPoint
     {
-        private const int CountNeighbour = 4;
+        public const int CountNeighbour = 4;
         
         private static readonly int[] ShiftX = {1, 0, -1, 0};
 

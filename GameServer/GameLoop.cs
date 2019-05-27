@@ -4,33 +4,27 @@ namespace GameServer
 {
     public class GameLoop
     {
-        private const float MaxValueAccum = 0.2f;
+        private const double MaxValueAccum = 0.2;
         
         public delegate void StepFinishedEventHandler(object sender, StepFinishedEventArgs args);
         
         public event StepFinishedEventHandler StepFinished;
 
-        public float DeltaTime => 1.0f / FramePerSecond;
-        
-        public float FramePerSecond { get; set; }
-
-        public GameLoop(Map sceneMap)
-        {
-            FramePerSecond = 60;
-        }
+        public double DeltaTime => 1.0 / 60.0;
 
         public void Execute()
         {
-            var accumulator = 0.0f;
-            var frameStartTime = DateTime.Now.Millisecond;
+            var accumulator = 0.0;
+            var frameStartTime = DateTime.Now;
             
             while (true)
             {
-                var curTime = DateTime.Now.Millisecond;
+                var curTime = DateTime.Now;
+                var elapsedMilliseconds = (curTime - frameStartTime).TotalMilliseconds;
                 
-                accumulator += (curTime - frameStartTime) / 1000.0f;
-
                 frameStartTime = curTime;
+                
+                accumulator +=  elapsedMilliseconds / 1000.0;
 
                 if (accumulator > MaxValueAccum)
                     accumulator = MaxValueAccum;
@@ -41,7 +35,7 @@ namespace GameServer
                     accumulator -= DeltaTime;
                 }
                 
-                OnStepFinished(this, new StepFinishedEventArgs(accumulator/DeltaTime));
+                OnStepFinished(this, new StepFinishedEventArgs(accumulator/DeltaTime, elapsedMilliseconds));
             }
         }
 

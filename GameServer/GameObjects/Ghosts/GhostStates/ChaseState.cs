@@ -1,12 +1,23 @@
 namespace GameServer.GameObjects.Ghosts.GhostStates
 {
-    public abstract class ChaseState:IGhostState
+    public class ChaseState:IGhostState
     {
-        public void Move()
+
+        public void Act()
         {
             throw new System.NotImplementedException();
         }
 
-        public GameObjectCode Code { get; }
+        public MoveDirection Direction { get; }
+        
+        public void PacMan_AteEnergizer()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void GameLoop_StepFinished(object sender, StepFinishedEventArgs args)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
