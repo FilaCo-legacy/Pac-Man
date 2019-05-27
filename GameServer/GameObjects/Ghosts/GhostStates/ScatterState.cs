@@ -8,5 +8,10 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
         }
 
         public abstract GameObjectCode Code { get; }
+        
+        public void CollideWith(PacMan pacMan)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
