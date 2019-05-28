@@ -33,7 +33,7 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
         {
             if (!_move)
                 return;
-            _move = false;
+            _move = true;
 
             var direction = (int) Direction;
             var posDir = new List<MoveDirection>();
@@ -72,7 +72,7 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
             _elapsedSeconds += args.ElapsedMilliseconds / 1000.0;
 
             if (_elapsedSeconds >= TargetSeconds)
-                _ghost.State = new ScatterState();
+                _ghost.State = new ScatterState(_ghost);
         }
     }
 }

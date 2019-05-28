@@ -30,7 +30,7 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
         public RespawnState(Ghost ghost)
         {
             _ghost = ghost;
-            _move = false;
+            _move = true;
             _destPnt = new MapPoint
             {
                 Row = Map.LeftUpperGhostRoom.Row + Rnd.Next(0, Map.GhostRoomWidth + 1), 
@@ -47,7 +47,7 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
                 _move = true;
             
             if (_ghost.Position == _destPnt)
-                _ghost.State = new ScatterState();
+                _ghost.State = new ScatterState(_ghost);
         }
     }
 }
