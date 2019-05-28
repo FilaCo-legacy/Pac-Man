@@ -6,9 +6,9 @@ namespace GameServer
 {
     public class Bfs
     {
-        private readonly bool [,] _used;
+        private readonly SortedSet<MapPoint> _used;
 
-        private readonly MapPoint[,] _parent;
+        private readonly SortedDictionary<MapPoint, MapPoint> _parent;
 
         private readonly Queue<MapPoint> _queue;
 
@@ -16,22 +16,15 @@ namespace GameServer
 
         public Bfs()
         {
-            _used = new bool[Map.Height, Map.Width];
-            _parent = new MapPoint[Map.Height, Map.Width];
+            _used = new SortedSet<MapPoint>();
+            _parent = new SortedDictionary<MapPoint, MapPoint>();
             _queue = new Queue<MapPoint>();
         }
 
         private void Initialize()
         {
-            for (var row = 0; row < _used.GetLength(0); ++row)
-            {
-                for (var column = 0; column < _used.GetLength(1); ++column)
-                {
-                    _used[row, column] = false;
-                    _parent[row, column].Set(row, column);
-                }
-            }
-            
+            _used.Clear();
+            _parent.Clear();
             _queue.Clear();
         }
 
@@ -39,8 +32,8 @@ namespace GameServer
         {
             var curPoint = endEntry;
 
-            while (_parent[curPoint.Row, curPoint.Column] != startEntry)
-                curPoint = _parent[curPoint.Row, curPoint.Column];
+            while (_parent[curPoint] != startEntry)
+                curPoint = _parent[curPoint];
 
             _result = (MoveDirection)startEntry.GetNeighbours.ToList().FindIndex(neighbour => neighbour == curPoint);
         }
@@ -51,12 +44,12 @@ namespace GameServer
 
             foreach (var neighbour in curPoint.GetNeighbours)
             {
-                if (!neighbour.IsValid || _used[neighbour.Row, neighbour.Column])
+                if (_used.Contains(neighbour))
                     continue;
-                
-                _used[neighbour.Row, neighbour.Column] = true;
+
+                _used.Add(neighbour);
                 _queue.Enqueue(neighbour);
-                _parent[neighbour.Row, neighbour.Column] = curPoint;
+                _parent[neighbour] = curPoint;
 
                 if (neighbour != endPnt) 
                     continue;
@@ -72,8 +65,8 @@ namespace GameServer
         public MoveDirection FindDirection(MapPoint startPnt, MapPoint endPnt)
         {
             Initialize();
-            
-            _used[startPnt.Row, startPnt.Column] = true;
+
+            _used.Add(startPnt);
             _queue.Enqueue(startPnt);
 
             while (_queue.Count > 0 && !Step(startPnt, endPnt)){}
@@ -85,7 +78,7 @@ namespace GameServer
         {
             Initialize();
             
-            _used[startPnt.Row, startPnt.Column] = true;
+            _used.Add(startPnt);
             _queue.Enqueue(startPnt);
 
             var len = 0;
