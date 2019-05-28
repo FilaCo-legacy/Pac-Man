@@ -52,6 +52,12 @@ namespace GameServer
 
         public static bool operator !=(MapPoint lhs, MapPoint rhs) => !(lhs == rhs);
         
+        public static MapPoint operator - (MapPoint lhs, MapPoint rhs) => 
+            new MapPoint(lhs.Row - rhs.Row, lhs.Column - rhs.Column);
+        
+        public static MapPoint operator + (MapPoint lhs, MapPoint rhs) => 
+            new MapPoint(lhs.Row + rhs.Row, lhs.Column + rhs.Column);
+        
         private bool Equals(MapPoint other)
         {
             return Row == other.Row && Column == other.Column;

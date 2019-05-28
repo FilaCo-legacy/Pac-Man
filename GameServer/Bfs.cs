@@ -35,7 +35,7 @@ namespace GameServer
             _queue.Clear();
         }
 
-        private void FindDirection(MapPoint startEntry, MapPoint endEntry)
+        private void DefineDirection(MapPoint startEntry, MapPoint endEntry)
         {
             var curPoint = endEntry;
 
@@ -51,8 +51,7 @@ namespace GameServer
 
             foreach (var neighbour in curPoint.GetNeighbours)
             {
-                if (!neighbour.IsValid || _used[neighbour.Row, neighbour.Column] ||
-                    Map.GetInstance[neighbour].Peek() == GameObjectCode.Wall) 
+                if (!neighbour.IsValid || _used[neighbour.Row, neighbour.Column])
                     continue;
                 
                 _used[neighbour.Row, neighbour.Column] = true;
@@ -62,7 +61,7 @@ namespace GameServer
                 if (neighbour != endPnt) 
                     continue;
                 
-                FindDirection(startPnt, endPnt);
+                DefineDirection(startPnt, endPnt);
                 
                 return true;
             }
@@ -70,7 +69,7 @@ namespace GameServer
             return false;
         }
         
-        public MoveDirection Execute(MapPoint startPnt, MapPoint endPnt)
+        public MoveDirection FindDirection(MapPoint startPnt, MapPoint endPnt)
         {
             Initialize();
             
@@ -80,6 +79,23 @@ namespace GameServer
             while (_queue.Count > 0 && !Step(startPnt, endPnt)){}
 
             return _result;
+        }
+        
+        public int Distance(MapPoint startPnt, MapPoint endPnt)
+        {
+            Initialize();
+            
+            _used[startPnt.Row, startPnt.Column] = true;
+            _queue.Enqueue(startPnt);
+
+            var len = 0;
+
+            while (_queue.Count > 0 && !Step(startPnt, endPnt))
+            {
+                ++len;
+            }
+
+            return len;
         }
     }
 }

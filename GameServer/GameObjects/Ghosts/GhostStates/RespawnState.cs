@@ -22,7 +22,7 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
                 return;
             _move = false;
 
-            Direction = _trajectoryCmp.Execute(_ghost.Position, _destPnt);
+            Direction = _trajectoryCmp.FindDirection(_ghost.Position, _destPnt);
         }
 
         public MoveDirection Direction { get; private set; }

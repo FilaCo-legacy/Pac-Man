@@ -40,7 +40,7 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
                 return;
             _move = false;
 
-            Direction = _trajectoryCmp.Execute(_ghost.Position, _ghost.TargetScatterState);
+            Direction = _trajectoryCmp.FindDirection(_ghost.Position, _ghost.TargetScatterState);
         }
         
         public void PacMan_AteEnergizer()
