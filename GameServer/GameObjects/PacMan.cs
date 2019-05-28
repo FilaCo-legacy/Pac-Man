@@ -1,3 +1,6 @@
+using System.Threading.Tasks;
+using GameServer.GameMap;
+
 namespace GameServer.GameObjects
 {
     public class PacMan : IActor, IMovable
@@ -14,7 +17,7 @@ namespace GameServer.GameObjects
 
         private void OnMoved(IMovable sender, MovedEventArgs args)
         {
-            Moved?.BeginInvoke(sender, args,null, null);
+            Task.Run(() => Moved?.Invoke(sender, args));
         }
         
         public void Act()

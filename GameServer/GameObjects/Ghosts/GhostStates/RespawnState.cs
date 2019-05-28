@@ -1,4 +1,5 @@
 using System;
+using GameServer.GameMap;
 
 namespace GameServer.GameObjects.Ghosts.GhostStates
 {

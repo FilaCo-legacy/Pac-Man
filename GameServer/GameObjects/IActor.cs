@@ -1,6 +1,4 @@
-using GameServer.GameObjects;
-
-namespace GameServer
+namespace GameServer.GameObjects
 {
     public interface IActor
     {

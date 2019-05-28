@@ -1,7 +1,7 @@
 using GameServer.GameObjects;
 using GameServer.GameObjects.Ghosts;
 
-namespace GameServer
+namespace GameServer.GameMap
 {
     public class MapDispatcher
     {

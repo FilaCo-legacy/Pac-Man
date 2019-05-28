@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+using GameServer.GameMap;
 using GameServer.GameObjects.Ghosts.GhostStates;
 
 namespace GameServer.GameObjects.Ghosts
@@ -22,7 +24,7 @@ namespace GameServer.GameObjects.Ghosts
 
         public void OnMoved(IMovable sender, MovedEventArgs args)
         {
-            Moved?.BeginInvoke(sender, args,null, null);
+            Task.Run(() => Moved?.Invoke(sender, args));
         }
 
         public void Act() => State.Act();

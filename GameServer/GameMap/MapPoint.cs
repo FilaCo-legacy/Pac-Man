@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using GameServer.GameObjects;
 
-namespace GameServer
+namespace GameServer.GameMap
 {
     public struct MapPoint
     {

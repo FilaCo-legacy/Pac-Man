@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using GameServer.GameMap;
 using GameServer.GameObjects;
 
 namespace GameServer

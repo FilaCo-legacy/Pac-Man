@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using GameServer.GameObjects;
 
-namespace GameServer.GameObjects
+namespace GameServer.GameMap
 {
     public class MapEntry : IEnumerable<GameObjectCode>
     {

@@ -10,7 +10,7 @@ namespace GameServer
     /// Makes all movable game objects to move async.
     /// It is an implementation of the Singletone Pattern
     /// </summary>
-    public class Scene
+    internal class Scene
     {
         private static readonly Scene Instance = new Scene();
 

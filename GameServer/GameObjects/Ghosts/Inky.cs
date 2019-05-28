@@ -1,3 +1,5 @@
+using GameServer.GameMap;
+
 namespace GameServer.GameObjects.Ghosts
 {
     public class Inky : Ghost
@@ -5,6 +7,7 @@ namespace GameServer.GameObjects.Ghosts
         private static readonly Inky Instance = new Inky();
 
         public static Inky GetInstance => Instance;
+        
         public override MapPoint TargetScatterState=> new MapPoint(27 ,20 );
 
         public override MapPoint TargetChaseState

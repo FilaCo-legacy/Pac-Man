@@ -1,7 +1,6 @@
 ﻿using System;
-using GameServer.GameObjects;
 
-namespace GameServer
+namespace GameServer.GameMap
 {
     public class Map
     {

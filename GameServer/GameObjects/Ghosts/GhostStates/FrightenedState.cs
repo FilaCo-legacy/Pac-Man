@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using GameServer.GameMap;
 
 namespace GameServer.GameObjects.Ghosts.GhostStates
 {

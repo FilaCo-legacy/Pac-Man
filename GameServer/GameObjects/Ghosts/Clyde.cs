@@ -1,3 +1,5 @@
+using GameServer.GameMap;
+
 namespace GameServer.GameObjects.Ghosts
 {
     public class Clyde : Ghost
