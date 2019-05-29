@@ -1,9 +1,11 @@
+using GameServer.GameMap;
+
 namespace GameServer.GameObjects
 {
     public class MovedEventArgs
     {
-        public GameObjectCode Code { get; }
+        public MapPoint DesiredPosition { get; }
 
-        public MovedEventArgs(GameObjectCode code) => Code = code;
+        public MovedEventArgs(MapPoint desiredPosition) => DesiredPosition = desiredPosition;
     }
 }

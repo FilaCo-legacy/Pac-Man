@@ -1,4 +1,6 @@
 using System;
+using GameServer.GameMap;
+using GameServer.GameObjects;
 
 namespace GameServer
 {
@@ -6,11 +8,11 @@ namespace GameServer
     {
         private const double MaxValueAccum = 0.2;
         
+        private const double DeltaTime = 1.0 / 60.0;
+        
         public delegate void StepFinishedEventHandler(object sender, StepFinishedEventArgs args);
         
         public event StepFinishedEventHandler StepFinished;
-
-        public double DeltaTime => 1.0 / 60.0;
 
         public void Execute()
         {
@@ -35,11 +37,14 @@ namespace GameServer
                     accumulator -= DeltaTime;
                 }
                 
-                OnStepFinished(this, new StepFinishedEventArgs(accumulator/DeltaTime, elapsedMilliseconds));
+                var state = Map.GetInstance.Checker.Check();
+                if (state != GameState.Lose && Map.GetInstance.IsVictory)
+                    state = GameState.Win;
+                OnStepFinished(this, new StepFinishedEventArgs(accumulator/DeltaTime, elapsedMilliseconds, state));
             }
         }
 
-        public void OnStepFinished(object sender, StepFinishedEventArgs args)
+        private void OnStepFinished(object sender, StepFinishedEventArgs args)
         {
             StepFinished?.Invoke(sender, args);
         }

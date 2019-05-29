@@ -16,6 +16,8 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
         
         public MoveDirection Direction { get; private set; }
 
+        public OnPacManReaction ReactOnPacMan => OnPacManReaction.Eat;
+
         public ChaseState(Ghost ghost)
         {
             _ghost = ghost;
@@ -35,9 +37,10 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
             Direction = _trajectoryCmp.FindDirection(_ghost.Position, _ghost.TargetChaseState);
         }
         
-        public void PacMan_AteEnergizer()
+        public void OnPacManAteSmth(PacMan_EatEventArgs args)
         {
-            _ghost.State = new FrightenedState(_ghost);
+            if (args.EatenObject == GameObjectCode.Energizer)
+                _ghost.State = new FrightenedState(_ghost);
         }
 
         public void GameLoop_StepFinished(object sender, StepFinishedEventArgs args)

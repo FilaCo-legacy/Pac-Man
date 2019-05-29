@@ -27,6 +27,8 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
         }
 
         public MoveDirection Direction { get; private set; }
+        
+        public OnPacManReaction ReactOnPacMan => OnPacManReaction.None;
 
         public RespawnState(Ghost ghost)
         {
@@ -40,7 +42,9 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
             _trajectoryCmp = new Bfs();
         }
 
-        public void PacMan_AteEnergizer() {}
+        public void OnPacManAteSmth(PacMan_EatEventArgs args)
+        {
+        }
 
         public void GameLoop_StepFinished(object sender, StepFinishedEventArgs args)
         {

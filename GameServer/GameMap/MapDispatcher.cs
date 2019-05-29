@@ -16,15 +16,10 @@ namespace GameServer.GameMap
 
         private static void Actor_Moved(IMovable sender, MovedEventArgs args)
         {
-            var targetPnt = sender.Position[sender.Direction];
+            if (!args.DesiredPosition.IsValid || Map.GetInstance[args.DesiredPosition] == GameObjectCode.Wall) 
+                return;
 
-            if (!targetPnt.IsValid) return;
-            
-            Map.GetInstance[sender.Position].Pop();
-
-            sender.Position = targetPnt;
-                
-            Map.GetInstance[sender.Position].Push(args.Code);
+            sender.Position = args.DesiredPosition;
         }
     }
 }

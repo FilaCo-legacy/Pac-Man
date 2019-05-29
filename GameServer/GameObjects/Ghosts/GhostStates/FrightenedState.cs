@@ -21,6 +21,8 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
         private bool _move;
         
         public MoveDirection Direction { get; private set; }
+        
+        public OnPacManReaction ReactOnPacMan => OnPacManReaction.Eaten;
 
         public FrightenedState(Ghost ghost)
         {
@@ -45,7 +47,7 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
 
                 var targetMapPnt = _ghost.Position[(MoveDirection) curDir];
 
-                if (targetMapPnt.IsValid && Map.GetInstance[targetMapPnt].Peek() != GameObjectCode.Wall)
+                if (targetMapPnt.IsValid && Map.GetInstance[targetMapPnt] != GameObjectCode.Wall)
                     posDir.Add((MoveDirection)curDir);
             }
 
@@ -57,12 +59,13 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
                 Direction = (MoveDirection)backDir;
             }
 
-            _ghost.OnMoved(_ghost, new MovedEventArgs(GameObjectCode.Ghost));
+            _ghost.OnMoved(_ghost, new MovedEventArgs(_ghost.Position[Direction]));
         }
         
-        public void PacMan_AteEnergizer()
+        public void OnPacManAteSmth(PacMan_EatEventArgs args)
         {
-            _elapsedSeconds = 0;
+            if (args.EatenObject == GameObjectCode.Energizer)
+                _elapsedSeconds = 0;
         }
 
         public void GameLoop_StepFinished(object sender, StepFinishedEventArgs args)

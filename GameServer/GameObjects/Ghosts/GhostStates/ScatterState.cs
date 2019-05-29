@@ -17,6 +17,8 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
         private readonly Bfs _trajectoryCmp;
         
         public MoveDirection Direction { get; private set; }
+        
+        public OnPacManReaction ReactOnPacMan => OnPacManReaction.Eat;
 
         public ScatterState(Ghost ghost)
         {
@@ -43,10 +45,12 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
             Direction = _trajectoryCmp.FindDirection(_ghost.Position, _ghost.TargetScatterState);
         }
         
-        public void PacMan_AteEnergizer()
+        public void OnPacManAteSmth(PacMan_EatEventArgs args)
         {
-            --_ghost.ScatterRepeats;
+            if (args.EatenObject != GameObjectCode.Energizer) return;
             
+            --_ghost.ScatterRepeats;
+
             _ghost.State = new FrightenedState(_ghost);
         }
 

@@ -20,11 +20,18 @@ namespace GameServer.GameObjects.Ghosts
 
         public event MovedEventHandler Moved;
 
-        public void PacMan_AteEnergizer() => State.PacMan_AteEnergizer();
+        protected Ghost()
+        {
+            PacMan.GetInstance.AteSmth += OnPacManAteSmth; 
+        }
+
+        private void OnPacManAteSmth(PacMan_EatEventArgs args) => State.OnPacManAteSmth(args);
+
+        public OnPacManReaction ReactOnPacMan => State.ReactOnPacMan;
 
         public void OnMoved(IMovable sender, MovedEventArgs args)
         {
-            Task.Run(() => Moved?.Invoke(sender, args));
+            Moved?.Invoke(sender, args);
         }
 
         public void Act() => State.Act();
