@@ -10,29 +10,14 @@ namespace GameServer
     /// Makes all movable game objects to move async.
     /// It is an implementation of the Singletone Pattern
     /// </summary>
-    internal class Scene
+    public class Scene
     {
-        private static readonly Scene Instance = new Scene();
-
-        public static Scene GetInstance => Instance;
-        
         /// <summary>
         /// Collection of actors
         /// </summary>
         private readonly ICollection <IActor> _actors;
         
-
-        public Scene()
-        {
-            _actors = new List<IActor>
-            {
-                PacMan.GetInstance,
-                Blinky.GetInstance,
-                Clyde.GetInstance,
-                Inky.GetInstance,
-                Pinky.GetInstance
-            };
-        }
+        public Scene(){}
 
         /// <summary>
         /// Starts every actor move action and wait until all of them will end
@@ -44,6 +29,11 @@ namespace GameServer
             actorsMove.AddRange(_actors.Select(curActor => Task.Run(curActor.Act)));
 
             Task.WhenAll(actorsMove).Wait();
+        }
+
+        public void Add(IActor actor)
+        {
+            _actors.Add(actor);
         }
     }
 }

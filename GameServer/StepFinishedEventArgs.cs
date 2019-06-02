@@ -7,14 +7,11 @@ namespace GameServer
         public double Alpha { get; }
         
         public double ElapsedMilliseconds { get; }
-        
-        public GameState GameState { get; }
 
-        public StepFinishedEventArgs(double alpha, double elapsedMilliseconds, GameState gameState)
+        public StepFinishedEventArgs(double alpha, double elapsedMilliseconds)
         {
             Alpha = alpha;
             ElapsedMilliseconds = elapsedMilliseconds;
-            GameState = gameState;
         }
     }
 }

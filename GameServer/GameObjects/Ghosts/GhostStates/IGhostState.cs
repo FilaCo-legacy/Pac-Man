@@ -6,7 +6,6 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
         
         MoveDirection Direction { get; }
         
-        OnPacManReaction ReactOnPacMan { get; }
 
         void OnPacManAteSmth(PacMan_EatEventArgs args);
 

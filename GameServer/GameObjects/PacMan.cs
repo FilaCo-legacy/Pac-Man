@@ -5,7 +5,7 @@ namespace GameServer.GameObjects
 {
     public delegate void PacManEatEventHandler(PacMan_EatEventArgs args);
 
-    public class PacMan : IActor, IMovable
+    public class PacMan : IActor
     {
         private const double Speed = 1.0 / 6.0;
 
@@ -21,8 +21,6 @@ namespace GameServer.GameObjects
         
         public MapPoint Position { get; set; }
 
-        public event MovedEventHandler Moved;
-        
         public event PacManEatEventHandler AteSmth;
 
         private PacMan()
@@ -35,33 +33,9 @@ namespace GameServer.GameObjects
         {
             AteSmth?.Invoke(args);
         }
-        
-        private void OnMoved(IMovable sender, MovedEventArgs args)
-        {
-            Moved?.Invoke(sender, args);
-        }
-        
+
         public void Act()
         {
-            if (!_move)
-                return;
-            
-            OnMoved(this, new MovedEventArgs(Position[Direction]));
-        }
-
-        public void StepBack()
-        {
-            var dir = (int)(Direction + 2) % MapPoint.CountNeighbour;
-
-            Position = Position[(MoveDirection) dir];
-        }
-        
-        public void GameLoop_StepFinished(object sender, StepFinishedEventArgs args)
-        {
-            if (args.ElapsedMilliseconds / 1000.0 > Speed)
-                _move = true;
-            
-            _elapsedSeconds += args.ElapsedMilliseconds / 1000.0;
         }
     }
 }

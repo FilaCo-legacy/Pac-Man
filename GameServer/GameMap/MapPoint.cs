@@ -46,7 +46,7 @@ namespace GameServer.GameMap
             }
         }
         
-        public bool IsValid  => Row > 0 && Column > 0 && Row < Map.Height && Column < Map.Width;
+        public bool IsValid(Map map)  => Row > 0 && Column > 0 && Row < map.Height && Column < map.Width;
 
         public static bool operator ==(MapPoint lhs, MapPoint rhs) => lhs.Row == rhs.Row && lhs.Column == rhs.Column;
 
