@@ -19,8 +19,7 @@ namespace MainWindow
             
             var client = new Client(new MapFromFileLoader(defaultMapPath));
             
-            var win = new MainWindow(client);
-            //win.InitializeComponents();
+            var win = new MainWindow();
 
             app.AddWindow(win);
 
