@@ -4,6 +4,6 @@ namespace GameServer.GameMap
 {
     public interface IMapLoader
     {
-        void Load(out MapObjCode [,] map);
+        Map Load();
     }
 }

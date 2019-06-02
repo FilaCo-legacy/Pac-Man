@@ -7,7 +7,6 @@ namespace MainWindow
 {
     public partial class MainWindow
     {
-        private readonly Client _client;
         private PacManSheet MainSheet_PacManSheet;
         private StatusBarSheet StatusBar_StatusBarSheet;
         [UI] 
@@ -24,7 +23,6 @@ namespace MainWindow
             InitializeMainSheet();
             InitializeStatusBar();
             Exit_Button.Clicked += ExitButton_Clicked;
-            _client.StepFinished += OnStepFinished;
         }
 
         private void InitializeMainSheet()

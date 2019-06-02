@@ -12,9 +12,8 @@ namespace MainWindow
 {
     public partial class MainWindow : Window
     {
-        public MainWindow(Client client) : this(new Builder("MainWindow.glade"))
+        public MainWindow() : this(new Builder("MainWindow.glade"))
         {
-            _client = client;
             InitializeComponents();
         }
 

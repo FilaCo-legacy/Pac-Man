@@ -5,24 +5,29 @@ using GameServer.GameObjects;
 
 namespace GameServer
 {
-    public class GameLoop
+    public class GameModel
     {
         private const double MaxValueAccum = 0.2;
         
-        private const double DeltaTime = 1.0 / 60.0;
-        
         public delegate void StepFinishedEventHandler(object sender, StepFinishedEventArgs args);
-        
         public event StepFinishedEventHandler StepFinished;
         
-        public Scene Scene { get; set; }
+        public IScene Scene { get; }
         
-        public Map Map { get; set; }
+        public IMap Map { get; set; }
+        
+        public double DeltaTime { get; set; }
 
-        public GameLoop(Scene scene, Map map)
+        public GameModel(IScene scene, IMap map, double fps = 60)
         {
             Scene = scene;
             Map = map;
+            DeltaTime = 1 / fps;
+        }
+        
+        private void OnStepFinished(object sender, StepFinishedEventArgs args)
+        {
+            StepFinished?.Invoke(sender, args);
         }
 
         public void Execute()
@@ -53,9 +58,6 @@ namespace GameServer
                 }
         }
 
-        private void OnStepFinished(object sender, StepFinishedEventArgs args)
-        {
-            StepFinished?.Invoke(sender, args);
-        }
+        public Task ExecuteAsync() => Task.Run(Execute);
     }
 }

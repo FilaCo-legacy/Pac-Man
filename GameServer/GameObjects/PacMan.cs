@@ -36,6 +36,7 @@ namespace GameServer.GameObjects
 
         public void Act()
         {
+            Position = Position[Direction];
         }
     }
 }

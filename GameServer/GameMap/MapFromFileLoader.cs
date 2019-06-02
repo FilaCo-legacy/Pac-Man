@@ -13,16 +13,19 @@ namespace GameServer.GameMap
             FilePath = filePath;
         }
         
-        public void Load(out MapObjCode[,] map)
+        public Map Load()
         {
+            var foodCount = 0;
+            var energizerCount = 0;
+            
             using (var strReader = new StreamReader(FilePath))
             {
                 var inpArr = strReader.ReadToEnd().Split("\n");
 
                 var rowsCount = inpArr.Length-1;
                 var colsCount = inpArr[0].Split(' ').Length;
-                
-                map = new MapObjCode[rowsCount, colsCount];
+
+                var matrixObjCodes = new MapObjCode[rowsCount, colsCount];
 
                 for (var row = 0; row < rowsCount; ++row)
                 {
@@ -30,9 +33,16 @@ namespace GameServer.GameMap
 
                     for (var col = 0; col < colsCount; ++col)
                     {
-                        map[row, col] = (MapObjCode)int.Parse(curRowArr[col]);
+                        matrixObjCodes[row, col] = (MapObjCode)int.Parse(curRowArr[col]);
+                        
+                        if (matrixObjCodes[row, col] == MapObjCode.Food)
+                            ++foodCount;
+                        if (matrixObjCodes[row, col] == MapObjCode.Energizer)
+                            ++energizerCount;
                     }
                 }
+                
+                return new Map(matrixObjCodes, foodCount, energizerCount);
             }
         }
     }
