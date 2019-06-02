@@ -7,9 +7,9 @@ namespace GameServer.GameMap
     {
         private readonly object _lock;
 
-        private readonly MapObjCode[,] _storedMap;
+        private MapObjCode[,] _storedMap;
         
-        private readonly MapObjCode[,] _map;
+        private MapObjCode[,] _map;
 
         public int Width => _map.GetLength(1);
 
@@ -50,16 +50,7 @@ namespace GameServer.GameMap
             get => this[point.Row, point.Column];
             set => this[point.Row, point.Column] = value;
         }
-
-        public void Refresh()
-        {
-            for (var row = 0; row < Height; ++row)
-            {
-                for (var column = 0; column < Width; ++column)
-                    _map[row, column] = _storedMap[row, column];
-            }
-        }
-
+        
         public Map(MapObjCode[,] matrixObjCodes, int foodCount, int energizerCount)
         {
             _lock = new object();
@@ -67,8 +58,13 @@ namespace GameServer.GameMap
             _map = (MapObjCode[,])matrixObjCodes.Clone();
             FoodCount = foodCount;
             EnergizerCount = energizerCount;
-
-            
         }
+
+        public void Refresh()
+        {
+            _map = (MapObjCode[,])_storedMap.Clone();
+        }
+
+        
     }
 }

@@ -9,32 +9,32 @@ namespace MainWindow
     {
         private PacManSheet MainSheet_PacManSheet;
         private StatusBarSheet StatusBar_StatusBarSheet;
+        
         [UI] 
-        private Box GameSheet_Box;
+        private Box GameBox_GtkBox;
+        
         [UI]
-        private Button NewGame_Button;
-        [UI]
-        private Button PauseResume_Button;
-        [UI]
-        private Button Exit_Button;
+        private Button ExitButton_GtkButton;
 
         private void InitializeComponents()
         {
             InitializeMainSheet();
             InitializeStatusBar();
-            Exit_Button.Clicked += ExitButton_Clicked;
+            ExitButton_GtkButton.Clicked += ExitButton_Clicked;
         }
 
         private void InitializeMainSheet()
         {
             MainSheet_PacManSheet = new PacManSheet();
-            GameSheet_Box.Add(MainSheet_PacManSheet);
+
+            GameBox_GtkBox.Add(MainSheet_PacManSheet);
+            GameBox_GtkBox.SetChildPacking(MainSheet_PacManSheet, true, true, 0, PackType.Start);
         }
 
         private void InitializeStatusBar()
         {
             StatusBar_StatusBarSheet = new StatusBarSheet();
-            GameSheet_Box.Add(StatusBar_StatusBarSheet);
+            //GameBox_GtkBox.Add(StatusBar_StatusBarSheet);
         }
     }
 }

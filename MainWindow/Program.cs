@@ -20,6 +20,8 @@ namespace MainWindow
             var client = new Client(new MapFromFileLoader(defaultMapPath));
             
             var win = new MainWindow();
+            
+            win.SetPacManMap(client.ServerModel.Map);
 
             app.AddWindow(win);
 

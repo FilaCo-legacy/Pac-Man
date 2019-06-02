@@ -1,6 +1,7 @@
 using System;
 using Cairo;
 using GameServer;
+using GameServer.GameMap;
 using Gdk;
 using GLib;
 using Gtk;
@@ -30,6 +31,11 @@ namespace MainWindow
         private void OnStepFinished(object sender, StepFinishedEventArgs args)
         {
             
+        }
+
+        public void SetPacManMap(IMap pacManMap)
+        {
+            MainSheet_PacManSheet.PacManMap = pacManMap;
         }
     }
 }

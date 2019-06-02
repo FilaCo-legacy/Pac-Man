@@ -7,7 +7,7 @@ namespace MainWindow
 {
     public class Client
     {
-        private readonly GameModel _serverModel;
+        public GameModel ServerModel { get; set; }
 
         public IMapLoader MapLoader { get; set; }
         
@@ -15,8 +15,8 @@ namespace MainWindow
         public Client(IMapLoader mapLoader)
         {
             MapLoader = mapLoader;
-            _serverModel = new GameModel(new Scene(), MapLoader.Load());
-            _serverModel.StepFinished += OnStepFinished;
+            ServerModel = new GameModel(new Scene(), MapLoader.Load());
+            ServerModel.StepFinished += OnStepFinished;
         }
 
         private void OnStepFinished(object sender, StepFinishedEventArgs args)
@@ -26,12 +26,12 @@ namespace MainWindow
 
         public void AddActor(IActor actor)
         {
-            _serverModel.Scene.Add(actor);
+            ServerModel.Scene.Add(actor);
         }
         
         public void SetMap()
         {
-            _serverModel.Map = MapLoader.Load();
+            ServerModel.Map = MapLoader.Load();
         }
     }
 }
