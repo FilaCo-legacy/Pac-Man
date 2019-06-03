@@ -13,15 +13,12 @@ namespace GameServer
         public event StepFinishedEventHandler StepFinished;
         
         public IScene Scene { get; }
-        
-        public IMap Map { get; set; }
-        
+
         public double DeltaTime { get; set; }
 
-        public GameModel(IScene scene, IMap map, double fps = 60)
+        public GameModel(IScene scene, double fps = 60)
         {
             Scene = scene;
-            Map = map;
             DeltaTime = 1 / fps;
         }
         
@@ -54,7 +51,7 @@ namespace GameServer
                     }
                     
                     OnStepFinished(this,
-                        new StepFinishedEventArgs(accumulator / DeltaTime, elapsedMilliseconds));
+                        new StepFinishedEventArgs(accumulator / DeltaTime));
                 }
         }
 

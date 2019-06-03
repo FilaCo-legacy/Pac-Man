@@ -5,9 +5,6 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
         void Act();
         
         MoveDirection Direction { get; }
-        
-
-        void OnPacManAteSmth(PacMan_EatEventArgs args);
 
         void GameLoop_StepFinished(object sender, StepFinishedEventArgs args);
     }

@@ -16,8 +16,11 @@ namespace GameServer
         /// Collection of actors
         /// </summary>
         private readonly ICollection <IActor> _actors;
-        
-        public Scene(){}
+
+        public Scene()
+        {
+            _actors = new List<IActor>();
+        }
 
         /// <summary>
         /// Starts every actor move action and wait until all of them will end

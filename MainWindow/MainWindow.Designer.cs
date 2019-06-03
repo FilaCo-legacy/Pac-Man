@@ -7,7 +7,7 @@ namespace MainWindow
 {
     public partial class MainWindow
     {
-        private PacManSheet MainSheet_PacManSheet;
+        public PacManSheet MainSheet_PacManSheet;
         private StatusBarSheet StatusBar_StatusBarSheet;
         
         [UI] 
@@ -21,6 +21,7 @@ namespace MainWindow
             InitializeMainSheet();
             InitializeStatusBar();
             ExitButton_GtkButton.Clicked += ExitButton_Clicked;
+            KeyPressEvent += new KeyPressEventHandler(MainWindow_KeyPressed);
         }
 
         private void InitializeMainSheet()

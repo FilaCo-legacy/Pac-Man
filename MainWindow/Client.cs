@@ -7,31 +7,19 @@ namespace MainWindow
 {
     public class Client
     {
-        public GameModel ServerModel { get; set; }
+        public GameModel ServerModel { get; }
 
-        public IMapLoader MapLoader { get; set; }
+        public MainWindow AppWindow { get; }
         
-
-        public Client(IMapLoader mapLoader)
+        public Client()
         {
-            MapLoader = mapLoader;
-            ServerModel = new GameModel(new Scene(), MapLoader.Load());
-            ServerModel.StepFinished += OnStepFinished;
-        }
-
-        private void OnStepFinished(object sender, StepFinishedEventArgs args)
-        {
-            
+            ServerModel = new GameModel(new Scene());
+            AppWindow = new MainWindow();
         }
 
         public void AddActor(IActor actor)
         {
             ServerModel.Scene.Add(actor);
-        }
-        
-        public void SetMap()
-        {
-            ServerModel.Map = MapLoader.Load();
         }
     }
 }

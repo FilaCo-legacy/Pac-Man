@@ -7,8 +7,6 @@ namespace MainWindow
 {
     class Program
     {
-        private const string defaultMapPath = @"DefaultMap.pcmap";
-        
         [STAThread]
         public static void Main(string[] args)
         {
@@ -17,16 +15,16 @@ namespace MainWindow
             var app = new Application("org.MainWindow.MainWindow", GLib.ApplicationFlags.None);
             app.Register(GLib.Cancellable.Current);
             
-            var client = new Client(new MapFromFileLoader(defaultMapPath));
+            var client = new Client();
             
             var win = new MainWindow();
-            
-            win.SetPacManMap(client.ServerModel.Map);
 
             app.AddWindow(win);
 
             win.ShowAll();
             win.DeleteEvent += (obj, eventArgs) => { Application.Quit(); };
+            client.ServerModel.StepFinished += win.OnStepFinished;
+            client.ServerModel.ExecuteAsync();
             Application.Run();
         }
     }

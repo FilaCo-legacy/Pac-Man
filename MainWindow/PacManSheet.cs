@@ -4,6 +4,7 @@ using GameServer;
 using GameServer.GameMap;
 using GameServer.GameObjects;
 using Gdk;
+using GLib;
 using Gtk;
 using Color = Cairo.Color;
 
@@ -29,18 +30,15 @@ namespace MainWindow
 
         private ImageSurface[,] _pacManSurface;
         
-        private  double _scaleX;
+        private double _scaleX;
 
         private double _scaleY;
 
-        private int _pacManState;
-        
-        public IMap PacManMap { get; set; }
+        private double _alpha;
 
         public PacManSheet()
         {
             InitSurfaces();
-            _pacManState = 0;
         }
 
         private void InitSurfaces()
@@ -74,8 +72,8 @@ namespace MainWindow
             if (AllocatedWidth < _mapSurface.Height)
                 WidthRequest = _mapSurface.Width;
             
-            _scaleY = _mapSurface.Height*1.0/(PacManMap.Height - 5);
-            _scaleX = _mapSurface.Width*1.0/PacManMap.Width;
+            _scaleY = _mapSurface.Height*1.0/(GameServer.GameMap.Map.GetInstance.Height - 5);
+            _scaleX = _mapSurface.Width*1.0/GameServer.GameMap.Map.GetInstance.Width;
 
             cr.SetSource(_mapSurface);
             
@@ -85,18 +83,20 @@ namespace MainWindow
         private void DrawFood(Context cr)
         {
             cr.Translate(0, -_scaleY*4);
+
+            var map = GameServer.GameMap.Map.GetInstance;
             
-            for (var row = 0; row < PacManMap.Height; ++row)
+            for (var row = 0; row < map.Height; ++row)
             {
                 cr.Translate( 0, _scaleY);
-                for (var col = 0; col < PacManMap.Width; ++col)
+                for (var col = 0; col < map.Width; ++col)
                 {
-                    if (PacManMap[row, col] == MapObjCode.Food)
+                    if (map[row, col] == MapObjCode.Food)
                     {
                         cr.SetSource(_foodSurface);
                         cr.Paint();
                     }
-                    else if (PacManMap[row, col] == MapObjCode.Energizer)
+                    else if (map[row, col] == MapObjCode.Energizer)
                     {
                         cr.SetSource(_energizerSurface);
                         cr.Paint();
@@ -104,10 +104,10 @@ namespace MainWindow
                     cr.Translate(_scaleX, 0);
                     
                 }
-                cr.Translate(- PacManMap.Width*_scaleX, 0);
+                cr.Translate(- map.Width*_scaleX, 0);
             }
             
-            cr.Translate(0, - PacManMap.Height*_scaleY);
+            cr.Translate(0, - map.Height*_scaleY);
             cr.Translate(0, _scaleY*4);
         }
 
@@ -115,21 +115,21 @@ namespace MainWindow
         {
             var pacMan = PacMan.GetInstance;
             
-            cr.Translate(pacMan.Position.Column * _scaleX, pacMan.Position.Row * _scaleY);
-            cr.SetSource(_pacManSurface[(int)pacMan.Direction, _pacManState]);
+            cr.Translate(pacMan.Position.Column * _scaleX , (pacMan.Position.Row* _scaleY  - 2));
+            cr.SetSource(_pacManSurface[(int)pacMan.Direction, 2]);
             
             cr.Paint();
 
-            cr.Translate(-pacMan.Position.Column * _scaleX, -pacMan.Position.Row * _scaleY);
-
+            cr.Translate(-pacMan.Position.Column * _scaleX , -(pacMan.Position.Row* _scaleY  - 2));
         }
 
-        public void OnStepFinished(object sender, StepFinishedEventArgs args)
+        protected override bool OnDrawn(Context cr)
         {
-
             DrawMap(cr);
             DrawFood(cr);
             DrawPacMan(cr);
+            
+            return true;
         }
     }
 }

@@ -2,10 +2,12 @@ using System;
 using Cairo;
 using GameServer;
 using GameServer.GameMap;
+using GameServer.GameObjects;
 using Gdk;
 using GLib;
 using Gtk;
 using Application = GLib.Application;
+using Key = Gdk.Key;
 using UI = Gtk.Builder.ObjectAttribute;
 using Window = Gtk.Window;
 
@@ -28,14 +30,29 @@ namespace MainWindow
             Close();
         }
 
-        private void OnStepFinished(object sender, StepFinishedEventArgs args)
+        public void OnStepFinished(object sender, StepFinishedEventArgs args)
         {
-            
+            QueueDraw();
         }
 
-        public void SetPacManMap(IMap pacManMap)
+        [ConnectBefore]
+        private void MainWindow_KeyPressed(object sender, KeyPressEventArgs args)
         {
-            MainSheet_PacManSheet.PacManMap = pacManMap;
+            switch (args.Event.Key)
+            {
+               case Key.Left:
+                    PacMan.GetInstance.Direction = MoveDirection.Left;
+                    break;
+               case Key.Up:
+                    PacMan.GetInstance.Direction = MoveDirection.Up;
+                    break;
+               case Key.Down:
+                    PacMan.GetInstance.Direction = MoveDirection.Down;
+                    break;
+               case Key.Right:
+                    PacMan.GetInstance.Direction = MoveDirection.Right;
+                    break;
+            }
         }
     }
 }

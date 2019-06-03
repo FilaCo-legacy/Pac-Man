@@ -11,10 +11,6 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
         }
 
         public MoveDirection Direction { get; }
-        public void OnPacManAteSmth(PacMan_EatEventArgs args)
-        {
-            throw new NotImplementedException();
-        }
 
         public void GameLoop_StepFinished(object sender, StepFinishedEventArgs args)
         {

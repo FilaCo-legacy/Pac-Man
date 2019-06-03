@@ -3,12 +3,14 @@ using GameServer.GameObjects;
 
 namespace GameServer.GameMap
 {
-    public class Map : IMap
+    public class Map 
     {
+        private static readonly  Map _instance = new Map();
+
+        public static Map GetInstance => _instance;
+
         private readonly object _lock;
 
-        private MapObjCode[,] _storedMap;
-        
         private MapObjCode[,] _map;
 
         public int Width => _map.GetLength(1);
@@ -45,26 +47,26 @@ namespace GameServer.GameMap
             }
         }
 
+        public MapPoint StartPacManLocation { get; }
+
         public MapObjCode this[MapPoint point]
         {
             get => this[point.Row, point.Column];
             set => this[point.Row, point.Column] = value;
         }
         
-        public Map(MapObjCode[,] matrixObjCodes, int foodCount, int energizerCount)
+        private Map()
         {
             _lock = new object();
-            _storedMap = (MapObjCode[,])matrixObjCodes.Clone();
-            _map = (MapObjCode[,])matrixObjCodes.Clone();
-            FoodCount = foodCount;
-            EnergizerCount = energizerCount;
+            _map = new MapFromFileLoader().Load();
+            FoodCount = 240;
+            EnergizerCount = 4;
+            StartPacManLocation = new MapPoint(17, 13);
         }
 
         public void Refresh()
         {
-            _map = (MapObjCode[,])_storedMap.Clone();
+            _map = new MapFromFileLoader().Load();
         }
-
-        
     }
 }

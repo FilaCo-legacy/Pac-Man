@@ -1,23 +1,25 @@
 using System;
 using System.IO;
+using GameServer.GameMap;
 using GameServer.GameObjects;
 
 namespace GameServer.GameMap
 {
+    
+    
     public class MapFromFileLoader:IMapLoader
     {
+        private const string defaultMapPath = @"DefaultMap.pcmap";
+        
         public string FilePath { get; set; }
         
-        public MapFromFileLoader(string filePath)
+        public MapFromFileLoader(string filePath = defaultMapPath)
         {
             FilePath = filePath;
         }
         
-        public Map Load()
+        public MapObjCode[,] Load()
         {
-            var foodCount = 0;
-            var energizerCount = 0;
-            
             using (var strReader = new StreamReader(FilePath))
             {
                 var inpArr = strReader.ReadToEnd().Split("\n");
@@ -34,15 +36,10 @@ namespace GameServer.GameMap
                     for (var col = 0; col < colsCount; ++col)
                     {
                         matrixObjCodes[row, col] = (MapObjCode)int.Parse(curRowArr[col]);
-                        
-                        if (matrixObjCodes[row, col] == MapObjCode.Food)
-                            ++foodCount;
-                        if (matrixObjCodes[row, col] == MapObjCode.Energizer)
-                            ++energizerCount;
                     }
                 }
-                
-                return new Map(matrixObjCodes, foodCount, energizerCount);
+
+                return matrixObjCodes;
             }
         }
     }
