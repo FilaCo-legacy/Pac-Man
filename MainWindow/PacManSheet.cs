@@ -113,6 +113,7 @@ namespace MainWindow
             }
             
             cr.Translate(0, - map.Height*_scaleY);
+            cr.Translate(0, 4*_scaleY);
         }
 
         private void DrawPacMan(Context cr)
@@ -123,12 +124,12 @@ namespace MainWindow
             
             var renderPositionY = _scaleY * (_prefRenderPositionY * _alpha + pacMan.Position.Row * (1.0f - _alpha));
             
-            cr.Translate(renderPositionX - _scaleX/2.0f , renderPositionY - _scaleX/2.0f);
+            cr.Translate(renderPositionX - 3, renderPositionY- 26);
             cr.SetSource(_pacManSurface[(int)pacMan.Direction, 2]);
             
             cr.Paint();
 
-            cr.Translate(-(renderPositionX - _scaleX / 2.0f), -(renderPositionY - _scaleX / 2.0f));
+            //cr.Translate(-renderPositionX + 3, -renderPositionY+ 26);
 
             _prefRenderPositionX = renderPositionX / _scaleX;
             _prefRenderPositionY = renderPositionY / _scaleY;

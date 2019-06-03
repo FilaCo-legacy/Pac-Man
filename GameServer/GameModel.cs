@@ -52,6 +52,7 @@ namespace GameServer
                     
                     OnStepFinished(this,
                         new StepFinishedEventArgs(accumulator / DeltaTime));
+                    PacMan.GetInstance.ElapsedTicks++;
                 }
         }
 
