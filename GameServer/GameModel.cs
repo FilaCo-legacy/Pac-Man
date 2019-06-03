@@ -7,16 +7,16 @@ namespace GameServer
 {
     public class GameModel
     {
-        private const double MaxValueAccum = 0.2;
+        private const float MaxValueAccum = 0.2f;
         
         public delegate void StepFinishedEventHandler(object sender, StepFinishedEventArgs args);
         public event StepFinishedEventHandler StepFinished;
         
         public IScene Scene { get; }
 
-        public double DeltaTime { get; set; }
+        public float DeltaTime { get; set; }
 
-        public GameModel(IScene scene, double fps = 60)
+        public GameModel(IScene scene, float fps = 60)
         {
             Scene = scene;
             DeltaTime = 1 / fps;
@@ -29,7 +29,7 @@ namespace GameServer
 
         public void Execute()
         {
-            var accumulator = 0.0;
+            var accumulator = 0.0f;
             var frameStartTime = DateTime.Now;
             
                 while (true)
@@ -39,7 +39,7 @@ namespace GameServer
 
                     frameStartTime = curTime;
 
-                    accumulator += elapsedMilliseconds / 1000.0;
+                    accumulator += (float)elapsedMilliseconds / 1000.0f;
 
                     if (accumulator > MaxValueAccum)
                         accumulator = MaxValueAccum;
