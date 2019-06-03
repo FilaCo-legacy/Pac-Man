@@ -30,15 +30,22 @@ namespace MainWindow
 
         private ImageSurface[,] _pacManSurface;
         
-        private double _scaleX;
+        private int _scaleX;
 
-        private double _scaleY;
+        private float _prefRenderPositionX;
 
-        private double _alpha;
+        private float _prefRenderPositionY;
+
+        private int _scaleY;
+
+        private float _alpha;
 
         public PacManSheet()
         {
             InitSurfaces();
+            _scaleX = _scaleY = 8;
+            _prefRenderPositionX = PacMan.GetInstance.Position.Column;
+            _prefRenderPositionY = PacMan.GetInstance.Position.Row;
         }
 
         private void InitSurfaces()
@@ -71,9 +78,6 @@ namespace MainWindow
             
             if (AllocatedWidth < _mapSurface.Height)
                 WidthRequest = _mapSurface.Width;
-            
-            _scaleY = _mapSurface.Height*1.0/(GameServer.GameMap.Map.GetInstance.Height - 5);
-            _scaleX = _mapSurface.Width*1.0/GameServer.GameMap.Map.GetInstance.Width;
 
             cr.SetSource(_mapSurface);
             
@@ -108,19 +112,26 @@ namespace MainWindow
             }
             
             cr.Translate(0, - map.Height*_scaleY);
-            cr.Translate(0, _scaleY*4);
         }
 
         private void DrawPacMan(Context cr)
         {
             var pacMan = PacMan.GetInstance;
+
+            var renderPositionX = _scaleX * (_prefRenderPositionX * _alpha + pacMan.Position.Column * (1.0f - _alpha));
             
-            cr.Translate(pacMan.Position.Column * _scaleX , (pacMan.Position.Row* _scaleY  - 2));
+            var renderPositionY = _scaleY * (_prefRenderPositionY * _alpha + pacMan.Position.Row * (1.0f - _alpha));
+            
+            
+            cr.Translate(renderPositionX - _scaleX/2.0f , renderPositionY - _scaleX/2.0f);
             cr.SetSource(_pacManSurface[(int)pacMan.Direction, 2]);
             
             cr.Paint();
 
-            cr.Translate(-pacMan.Position.Column * _scaleX , -(pacMan.Position.Row* _scaleY  - 2));
+            cr.Translate(-(renderPositionX - _scaleX / 2.0f), -(renderPositionY - _scaleX / 2.0f));
+
+            _prefRenderPositionX = renderPositionX / _scaleX;
+            _prefRenderPositionY = renderPositionY / _scaleY;
         }
 
         protected override bool OnDrawn(Context cr)
