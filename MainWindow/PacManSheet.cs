@@ -29,21 +29,22 @@ namespace MainWindow
         private ImageSurface _energizerSurface;
 
         private ImageSurface[,] _pacManSurface;
-        
-        private int _scaleX;
 
         private float _prefRenderPositionX;
 
         private float _prefRenderPositionY;
+        
+        private float _scaleX;
 
-        private int _scaleY;
+        private float _scaleY;
 
         private float _alpha;
 
         public PacManSheet()
         {
             InitSurfaces();
-            _scaleX = _scaleY = 8;
+            _scaleX = _mapSurface.Width * 1.0f / GameServer.GameMap.Map.GetInstance.Width;
+            _scaleY = _mapSurface.Height * 1.0f / (GameServer.GameMap.Map.GetInstance.Height - 5);
             _prefRenderPositionX = PacMan.GetInstance.Position.Column;
             _prefRenderPositionY = PacMan.GetInstance.Position.Row;
         }
@@ -121,7 +122,6 @@ namespace MainWindow
             var renderPositionX = _scaleX * (_prefRenderPositionX * _alpha + pacMan.Position.Column * (1.0f - _alpha));
             
             var renderPositionY = _scaleY * (_prefRenderPositionY * _alpha + pacMan.Position.Row * (1.0f - _alpha));
-            
             
             cr.Translate(renderPositionX - _scaleX/2.0f , renderPositionY - _scaleX/2.0f);
             cr.SetSource(_pacManSurface[(int)pacMan.Direction, 2]);

@@ -32,7 +32,7 @@ namespace MainWindow
 
         public void OnStepFinished(object sender, StepFinishedEventArgs args)
         {
-            
+            MainSheet_PacManSheet.SetAlpha(args.Alpha);
             QueueDraw();
         }
 

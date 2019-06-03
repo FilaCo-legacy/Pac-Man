@@ -4,13 +4,9 @@ namespace GameServer.GameObjects
 {
     public class PacMan : IActor
     {
-        private const int Ticks = 6;
-        
-        private static readonly PacMan _instance = new PacMan();
+        private static readonly PacMan Instance = new PacMan();
 
-        public static PacMan GetInstance => _instance;
-
-        public int ElapsedTicks { get; private set; }
+        public static PacMan GetInstance => Instance;
 
         public MoveDirection Direction { get; set; }
         
@@ -19,17 +15,13 @@ namespace GameServer.GameObjects
         private PacMan()
         {
             Position = Map.GetInstance.StartPacManLocation;
-            ElapsedTicks = 0;
         }
 
         public void Act()
         {
-            ++ElapsedTicks;
-
-            if (ElapsedTicks < Ticks) return;
-            
-            Position = Position[Direction];
-            ElapsedTicks = 0;
+            var map = Map.GetInstance;
+            if (map[Position[Direction]] != MapObjCode.Wall && map[Position[Direction]] != MapObjCode.Door)
+                Position = Position[Direction];
         }
     }
 }

@@ -4,9 +4,9 @@ namespace GameServer
 {
     public class StepFinishedEventArgs
     {
-        public double Alpha { get; }
+        public float Alpha { get; }
 
-        public StepFinishedEventArgs(double alpha)
+        public StepFinishedEventArgs(float alpha)
         {
             Alpha = alpha;
         }

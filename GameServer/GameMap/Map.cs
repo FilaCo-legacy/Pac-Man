@@ -61,7 +61,7 @@ namespace GameServer.GameMap
             _map = new MapFromFileLoader().Load();
             FoodCount = 240;
             EnergizerCount = 4;
-            StartPacManLocation = new MapPoint(17, 13);
+            StartPacManLocation = new MapPoint(19, 13);
         }
 
         public void Refresh()
