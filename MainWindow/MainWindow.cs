@@ -32,6 +32,7 @@ namespace MainWindow
 
         public void OnStepFinished(object sender, StepFinishedEventArgs args)
         {
+            
             QueueDraw();
         }
 

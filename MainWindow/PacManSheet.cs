@@ -142,5 +142,10 @@ namespace MainWindow
             
             return true;
         }
+
+        public void SetAlpha(float alpha)
+        {
+            _alpha = alpha;
+        }
     }
 }
