@@ -6,18 +6,18 @@ using GameServer.GameObjects;
 namespace GameServer
 {
     /// <summary>
-    /// Makes all movable game objects to move async.
+    ///     Makes all movable game objects to move async.
     /// </summary>
     public class Scene : IScene
     {
         /// <summary>
-        /// Collection of actors
+        ///     Collection of actors
         /// </summary>
-        private readonly ICollection <IActor> _actors;
+        private readonly ICollection<IActor> _actors;
 
         public Scene()
         {
-            _actors = new List<IActor>{PacMan.GetInstance};
+            _actors = new List<IActor> {PacMan.GetInstance};
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace GameServer
         public void Update()
         {
             var actorsMove = new List<Task>();
-            
+
             actorsMove.AddRange(_actors.Select(curActor => Task.Run(curActor.Act)));
 
             Task.WhenAll(actorsMove).Wait();

@@ -11,9 +11,9 @@ namespace MainWindow.Render
 
         private readonly ImageSurface _energizerSurface;
 
-        private readonly float _scaleX;
+        private readonly int _scaleX;
 
-        private readonly float _scaleY;
+        private readonly int _scaleY;
         
         public float Alpha { get; set; }
 

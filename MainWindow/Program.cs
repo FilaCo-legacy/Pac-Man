@@ -1,8 +1,11 @@
 using System;
+using System.Threading;
 using GameServer;
 using GLib;
 using MainWindow.Render;
 using Application = Gtk.Application;
+using Task = System.Threading.Tasks.Task;
+using Thread = GLib.Thread;
 
 namespace MainWindow
 {
@@ -19,17 +22,24 @@ namespace MainWindow
             var win = new MainWindow();
 
             app.AddWindow(win);
+            
+            var gameModel = new GameModel(new Scene(), win);
 
             win.ShowAll();
-            win.DeleteEvent += (obj, eventArgs) => { Application.Quit(); };
+            win.DeleteEvent += (obj, eventArgs) =>
+            {
+                Application.Quit();
+            };
             
             win.AddRenderer(new MapRenderer());
             win.AddRenderer(new FoodRenderer());
             win.AddRenderer(new PacManRenderer());
 
-            var gameModel = new GameModel(new Scene(), win);
+            var gameServer = new System.Threading.Thread(gameModel.Execute) {IsBackground = true};
 
-            gameModel.ExecuteAsync();
+            //System.Threading.Thread.CurrentThread.Priority = ThreadPriority.Highest;
+            
+            gameServer.Start();
             Application.Run();
         }
     }

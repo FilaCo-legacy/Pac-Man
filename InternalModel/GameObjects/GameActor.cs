@@ -1,20 +1,22 @@
+using System.Diagnostics;
 using GameServer.GameMap;
 
 namespace GameServer.GameObjects
 {
     public abstract class GameActor : IActor
     {
-        private int _elapsedTicks;
+        private readonly Stopwatch _sw;
 
-        protected abstract int Ticks { get; }
+        protected abstract int MillisecondsSkip { get; }
 
         public MapPoint Position { get; set; }
 
-        public MoveDirection Direction { get; set; }
+        public virtual MoveDirection Direction { get; set; }
 
         public GameActor()
         {
-            _elapsedTicks = 0;
+            _sw = new Stopwatch();
+            _sw.Start();
         }
 
         protected virtual bool CanMove(MapPoint targetPoint)
@@ -26,13 +28,13 @@ namespace GameServer.GameObjects
 
         public virtual void Act()
         {
-            ++_elapsedTicks;
-
-            if (_elapsedTicks < Ticks)
+            if (_sw.ElapsedMilliseconds < MillisecondsSkip)
                 return;
-
+            
             if (CanMove(Position[Direction]))
                 Position = Position[Direction];
+            
+            _sw.Restart();
         }
     }
 }
