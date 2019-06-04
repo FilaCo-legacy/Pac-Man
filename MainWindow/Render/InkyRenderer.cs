@@ -9,10 +9,14 @@ namespace MainWindow.Render
         private const string InkyDir = @"Sprites/Ghosts/Inky";
         
         private const string FrightenedDir = @"Sprites/Ghosts/Frightened";
+        
+        private const string RespawnDir = @"Sprites/Ghosts/Respawn";
 
         private readonly ImageSurface[,] _inkySurface;
         
         private readonly ImageSurface[] _frighetenedSurface;
+        
+        private readonly ImageSurface[] _respawnSurface;
 
         private float _prefRenderPositionX;
 
@@ -55,6 +59,14 @@ namespace MainWindow.Render
                 new ImageSurface($"{FrightenedDir}/Step1.png"),
                 new ImageSurface($"{FrightenedDir}/Step2.png")
             };
+            
+            _respawnSurface = new[]
+            {
+                new ImageSurface($"{RespawnDir}/Move_Right.png"),
+                new ImageSurface($"{RespawnDir}/Move_Down.png"),
+                new ImageSurface($"{RespawnDir}/Move_Left.png"),
+                new ImageSurface($"{RespawnDir}/Move_Up.png"),
+            };
         }
 
         public void Draw(Context cr)
@@ -69,6 +81,8 @@ namespace MainWindow.Render
             
             if (inky.State is FrightenedState)
                 cr.SetSource(_frighetenedSurface[inky.AnimateState]);
+            else if (inky.State is RespawnState)
+                cr.SetSource(_respawnSurface[inky.AnimateState]);
             else
                 cr.SetSource(_inkySurface[(int) inky.Direction, inky.AnimateState]);
 

@@ -23,15 +23,16 @@ namespace MainWindow
             Window = window;
             Scene = scene;
             DeltaTime = 1 / fps;
-            _checker = new ActorsChecker();
+            _checker = new ActorsChecker(Map.GetInstance.FoodCount);
         }
 
         public void Execute()
         {
             var accumulator = 0.0f;
             var frameStartTime = DateTime.Now;
+            var gameState = GameState.OnGoing;
 
-            while (true)
+            while (gameState == GameState.OnGoing)
             {
                 var elapsedSeconds = (DateTime.Now - frameStartTime).TotalSeconds;
 
@@ -42,10 +43,10 @@ namespace MainWindow
                 if (accumulator > MaxValueAccum)
                     accumulator = MaxValueAccum;
 
-                while (accumulator >= DeltaTime)
+                while (accumulator >= DeltaTime && gameState == GameState.OnGoing)
                 {
                     Scene.Update();
-                    _checker.Check();
+                    gameState = _checker.Check();
 
                     accumulator -= DeltaTime;
                 }

@@ -9,6 +9,14 @@ namespace GameServer.GameObjects
     {
         private List<Ghost> _ghosts = new List<Ghost> {Blinky.GetInstance, Inky.GetInstance, Pinky.GetInstance, Clyde.GetInstance};
         
+
+        private int _food;
+
+        public ActorsChecker(int food)
+        {
+            _food = food;
+        }
+        
         private void ScareGhosts()
         {
             foreach (var ghost in _ghosts)
@@ -17,7 +25,25 @@ namespace GameServer.GameObjects
             }
         }
 
-        private void CheckPacMan()
+        private GameState GhostsCheck()
+        {
+            foreach (var ghost in _ghosts)
+            {
+                if (ghost.Position == PacMan.GetInstance.Position)
+                {
+                    if (ghost.State is FrightenedState)
+                        ghost.State = new RespawnState(ghost);
+                    else if (! (ghost.State is RespawnState))
+                    {
+                        return GameState.Lose;
+                    }
+                }
+            }
+
+            return GameState.OnGoing;
+        }
+        
+        private GameState CheckPacMan()
         {
             var pacMan = PacMan.GetInstance;
             var map = Map.GetInstance;
@@ -29,14 +55,24 @@ namespace GameServer.GameObjects
                     ScareGhosts();
                     break;
                 case MapObjCode.Food:
+                    --_food;
                     map[pacMan.Position] = MapObjCode.Void;
                     break;
             }
+
+            return _food == 0 ? GameState.Win : GameState.OnGoing;
         }
         
-        public void Check()
+        public GameState Check()
         {
-            CheckPacMan();
+            var answer = GameState.OnGoing;
+            
+            answer = CheckPacMan();
+
+            if (answer != GameState.Win)
+                return GhostsCheck();
+
+            return answer;
         }
     }
 }

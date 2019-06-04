@@ -17,7 +17,7 @@ namespace GameServer.GameObjects.Ghosts
             {
                 var pacManPos = PacMan.GetInstance.Position;
 
-                return Math.Sqrt((Position - pacManPos).LengthSquared) < 8 ? TargetPointScatter : pacManPos;
+                return Math.Sqrt((Position - pacManPos).LengthSquared) < 10 ? TargetPointScatter : pacManPos;
             }
         }
 

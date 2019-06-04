@@ -9,10 +9,14 @@ namespace MainWindow.Render
         private const string ClydeDir = @"Sprites/Ghosts/Clyde";
         
         private const string FrightenedDir = @"Sprites/Ghosts/Frightened";
+        
+        private const string RespawnDir = @"Sprites/Ghosts/Respawn";
 
         private readonly ImageSurface[,] _clydeSurface;
         
         private readonly ImageSurface[] _frighetenedSurface;
+
+        private readonly ImageSurface[] _respawnSurface;
 
         private float _prefRenderPositionX;
 
@@ -55,6 +59,14 @@ namespace MainWindow.Render
                 new ImageSurface($"{FrightenedDir}/Step1.png"),
                 new ImageSurface($"{FrightenedDir}/Step2.png")
             };
+            
+            _respawnSurface = new[]
+            {
+                new ImageSurface($"{RespawnDir}/Move_Right.png"),
+                new ImageSurface($"{RespawnDir}/Move_Down.png"),
+                new ImageSurface($"{RespawnDir}/Move_Left.png"),
+                new ImageSurface($"{RespawnDir}/Move_Up.png"),
+            };
 
         }
 
@@ -67,10 +79,13 @@ namespace MainWindow.Render
             var renderPositionY = _prefRenderPositionY * Alpha + _scaleY * clyde.Position.Row * (1.0f - Alpha);
 
             cr.Translate(renderPositionX - 3, renderPositionY - 26);
-
-            cr.SetSource(clyde.State is FrightenedState
-                ? _frighetenedSurface[clyde.AnimateState]
-                : _clydeSurface[(int) clyde.Direction, clyde.AnimateState]);
+            
+            if (clyde.State is FrightenedState)
+                cr.SetSource(_frighetenedSurface[clyde.AnimateState]);
+            else if (clyde.State is RespawnState)
+                cr.SetSource(_respawnSurface[clyde.AnimateState]);
+            else
+                cr.SetSource(_clydeSurface[(int) clyde.Direction, clyde.AnimateState]);
 
             cr.Paint();
 
