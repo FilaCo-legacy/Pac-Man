@@ -7,7 +7,7 @@ namespace MainWindow
 {
     public partial class MainWindow
     {
-        public PacManSheet MainSheet_PacManSheet;
+        private PacManSheet MainSheet_PacManSheet;
         private StatusBarSheet StatusBar_StatusBarSheet;
         
         [UI] 

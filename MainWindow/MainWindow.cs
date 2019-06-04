@@ -6,6 +6,7 @@ using GameServer.GameObjects;
 using Gdk;
 using GLib;
 using Gtk;
+using MainWindow.Render;
 using Application = GLib.Application;
 using Key = Gdk.Key;
 using UI = Gtk.Builder.ObjectAttribute;
@@ -42,18 +43,23 @@ namespace MainWindow
             switch (args.Event.Key)
             {
                case Key.Left:
-                    
+                    PacMan.GetInstance.Direction = MoveDirection.Left;
                     break;
                case Key.Up:
-                    
+                    PacMan.GetInstance.Direction = MoveDirection.Up;
                     break;
                case Key.Down:
-                    
+                    PacMan.GetInstance.Direction = MoveDirection.Down;
                     break;
                case Key.Right:
-                    
+                    PacMan.GetInstance.Direction = MoveDirection.Right;
                     break;
             }
+        }
+
+        public void AddRenderer(IRenderer renderer)
+        {
+            MainSheet_PacManSheet.AddRenderer(renderer);
         }
     }
 }

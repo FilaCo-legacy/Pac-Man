@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using GameServer;
-using GameServer.GameMap;
 
 namespace MainWindow
 {
@@ -10,7 +9,6 @@ namespace MainWindow
         private const float MaxValueAccum = 0.2f;
 
         public IScene Scene { get; }
-        
         
         public IGameWindow Window { get; set; }
 

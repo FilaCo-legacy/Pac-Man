@@ -1,20 +1,20 @@
 using System;
-using System.Threading.Tasks;
 using GameServer;
-using GameServer.GameMap;
-using Gtk;
+using GLib;
+using MainWindow.Render;
+using Application = Gtk.Application;
 
 namespace MainWindow
 {
-    class Program
+    internal class Program
     {
         [STAThread]
         public static void Main(string[] args)
         {
             Application.Init();
 
-            var app = new Application("org.MainWindow.MainWindow", GLib.ApplicationFlags.None);
-            app.Register(GLib.Cancellable.Current);
+            var app = new Application("org.MainWindow.MainWindow", ApplicationFlags.None);
+            app.Register(Cancellable.Current);
 
             var win = new MainWindow();
 
@@ -22,9 +22,13 @@ namespace MainWindow
 
             win.ShowAll();
             win.DeleteEvent += (obj, eventArgs) => { Application.Quit(); };
-
-            var gameModel = new GameModel(new Scene(), new Map(), win);
             
+            win.AddRenderer(new MapRenderer());
+            win.AddRenderer(new FoodRenderer());
+            win.AddRenderer(new PacManRenderer());
+
+            var gameModel = new GameModel(new Scene(), win);
+
             gameModel.ExecuteAsync();
             Application.Run();
         }
