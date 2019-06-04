@@ -16,6 +16,9 @@ namespace GameServer.GameObjects
             return base.CanMove(targetPoint) && Map.GetInstance[targetPoint] != MapObjCode.Door;
         }
 
-        private PacMan(){}
+        private PacMan()
+        {
+            Position = Map.GetInstance.StartPacManLocation;
+        }
     }
 }

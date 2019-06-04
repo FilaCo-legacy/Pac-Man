@@ -26,6 +26,8 @@ namespace MainWindow.Render
         public PacManRenderer()
         {
             _scaleX = _scaleY = 8;
+            _prefRenderPositionX = PacMan.GetInstance.Position.Column;
+            _prefRenderPositionY = PacMan.GetInstance.Position.Row;
             
             _pacManSurface = new[,]
             {
