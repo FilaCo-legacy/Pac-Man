@@ -34,6 +34,7 @@ namespace MainWindow
             win.AddRenderer(new MapRenderer());
             win.AddRenderer(new FoodRenderer());
             win.AddRenderer(new PacManRenderer());
+            win.AddRenderer(new BlinkyRenderer());
 
             var gameServer = new System.Threading.Thread(gameModel.Execute) {IsBackground = true};
 

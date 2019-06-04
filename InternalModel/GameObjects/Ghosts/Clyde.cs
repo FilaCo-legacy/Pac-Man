@@ -23,7 +23,7 @@ namespace GameServer.GameObjects.Ghosts
 
         private Clyde()
         {
-            
+            Position = new MapPoint(17, 14);
         }
     }
 }

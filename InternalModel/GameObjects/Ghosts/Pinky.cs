@@ -26,7 +26,7 @@ namespace GameServer.GameObjects.Ghosts
 
         private Pinky()
         {
-
+            Position = new MapPoint(17, 13);
         }
     }
 }

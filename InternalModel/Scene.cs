@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GameServer.GameObjects;
+using GameServer.GameObjects.Ghosts;
 
 namespace GameServer
 {
@@ -17,7 +18,10 @@ namespace GameServer
 
         public Scene()
         {
-            _actors = new List<IActor> {PacMan.GetInstance};
+            _actors = new List<IActor>
+            {
+                PacMan.GetInstance, Blinky.GetInstance, Inky.GetInstance, Pinky.GetInstance, Clyde.GetInstance
+            };
         }
 
         /// <summary>

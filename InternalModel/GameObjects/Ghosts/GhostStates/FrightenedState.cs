@@ -15,7 +15,9 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
 
         private readonly Stopwatch _sw;
 
-        public int Ticks => 15;
+        public int Ticks => 60;
+
+        public int AnimateStates => 2;
 
         public FrightenedState(Ghost ghost)
         {

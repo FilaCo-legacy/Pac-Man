@@ -7,5 +7,7 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
         MoveDirection ChooseDirection(MapPoint startPoint);
         
         int Ticks { get; }
+        
+        int AnimateStates { get; }
     }
 }

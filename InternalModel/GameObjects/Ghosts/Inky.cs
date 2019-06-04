@@ -26,7 +26,7 @@ namespace GameServer.GameObjects.Ghosts
 
         private Inky()
         {
-
+            Position = new MapPoint(17, 12);
         }
     }
 }

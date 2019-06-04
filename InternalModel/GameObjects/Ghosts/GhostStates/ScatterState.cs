@@ -11,7 +11,9 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
         
         private readonly Stopwatch _sw;
         
-        public int Ticks => 10;
+        public int Ticks => 30;
+
+        public int AnimateStates => 2;
 
         public ScatterState(Ghost ghost)
         {
@@ -25,8 +27,7 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
         {
             var map = Map.GetInstance;
 
-            return targetPoint.IsValid(map) && map[targetPoint] != MapObjCode.Wall &&
-                   map[targetPoint] != MapObjCode.Door;
+            return targetPoint.IsValid(map) && map[targetPoint] != MapObjCode.Wall;
         }
 
         private void CheckTimeElapsed(ref MoveDirection direction)

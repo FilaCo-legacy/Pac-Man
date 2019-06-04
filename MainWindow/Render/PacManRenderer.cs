@@ -5,7 +5,6 @@ using GameServer.GameObjects;
 namespace MainWindow.Render
 {
     
-    // TODO: Implement animation
     public class PacManRenderer : IRenderer
     {
 
@@ -60,7 +59,7 @@ namespace MainWindow.Render
             var renderPositionY = _prefRenderPositionY * Alpha + _scaleY* pacMan.Position.Row * (1.0f - Alpha);
             
             cr.Translate(renderPositionX - 3, renderPositionY- 26);
-            cr.SetSource(_pacManSurface[(int)pacMan.Direction, pacMan.State]);
+            cr.SetSource(_pacManSurface[(int)pacMan.Direction, pacMan.AnimateState]);
             
             cr.Paint();
 

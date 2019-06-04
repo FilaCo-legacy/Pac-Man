@@ -11,7 +11,8 @@ namespace GameServer.GameObjects.Ghosts
         public IGhostState State { get; set; }
 
         public override int Ticks => State.Ticks;
-        
+
+        public override int AnimateStates => State.AnimateStates;
         public int TimesScatter { get; set; }
 
         public abstract MapPoint TargetPointScatter { get; }
@@ -20,7 +21,7 @@ namespace GameServer.GameObjects.Ghosts
 
         protected Ghost()
         {
-            
+            State = new ScatterState(this);
         }
 
         public override void Act()

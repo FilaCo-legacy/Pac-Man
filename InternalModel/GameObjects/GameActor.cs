@@ -8,12 +8,14 @@ namespace GameServer.GameObjects
         private int _elapsedTicks;
 
         public abstract int Ticks { get; }
+        
+        public abstract int AnimateStates { get; }
 
         public MapPoint Position { get; set; }
+        
+        public int AnimateState { get; private set; }
 
         public virtual MoveDirection Direction { get; set; }
-
-        public int ElapsedTicks => _elapsedTicks;
 
         protected virtual bool CanMove(MapPoint targetPoint)
         {
@@ -31,7 +33,8 @@ namespace GameServer.GameObjects
             
             if (CanMove(Position[Direction]))
                 Position = Position[Direction];
-            
+
+            AnimateState = (AnimateState+1) % AnimateStates;
         }
     }
 }

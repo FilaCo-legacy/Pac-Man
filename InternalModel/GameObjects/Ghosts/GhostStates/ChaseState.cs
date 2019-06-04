@@ -12,7 +12,9 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
         
         private readonly Stopwatch _sw;
         
-        public int Ticks => 10;
+        public int Ticks => 30;
+
+        public int AnimateStates => 2;
 
         public ChaseState(Ghost ghost)
         {

@@ -14,7 +14,7 @@ namespace GameServer.GameObjects.Ghosts
 
         private Blinky()
         {
-            
+            Position = new MapPoint(15, 13);
         }
     }
 }
