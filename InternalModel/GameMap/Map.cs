@@ -3,17 +3,21 @@ using GameServer.GameObjects;
 
 namespace GameServer.GameMap
 {
-    public class Map : IMap
+    public class Map
     {
+        private  static readonly Map Instance = new Map();
+
+        public static Map GetInstance => Instance;
+        
         private MapObjCode[,] _map;
 
         public int Width => _map.GetLength(1);
 
         public int Height => _map.GetLength(0);
-        
-        public int FoodCount { get; }
-        
-        public int EnergizerCount { get; }
+
+        public int FoodCount => 240;
+
+        public int EnergizerCount => 4;
 
         public MapObjCode this[int row, int column]
         {
@@ -33,7 +37,7 @@ namespace GameServer.GameMap
             }
         }
 
-        public MapPoint StartPacManLocation { get; }
+        public MapPoint StartPacManLocation => new MapPoint(20, 13);
 
         public MapObjCode this[MapPoint point]
         {
@@ -41,8 +45,9 @@ namespace GameServer.GameMap
             set => this[point.Row, point.Column] = value;
         }
         
-        public Map()
+        private Map()
         {
+            _map = new MapFromFileLoader().Load();
         }
 
         public void Refresh()
