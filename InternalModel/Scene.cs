@@ -17,7 +17,7 @@ namespace GameServer
 
         public Scene()
         {
-            _actors = new List<IActor>();
+            _actors = new List<IActor>{PacMan.GetInstance};
         }
 
         /// <summary>

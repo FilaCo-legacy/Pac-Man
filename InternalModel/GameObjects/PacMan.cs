@@ -9,7 +9,7 @@ namespace GameServer.GameObjects
 
         public static PacMan GetInstance => Instance;
         
-        protected override int Ticks => 10;
+        protected override int Ticks => 30;
         
         protected override bool CanMove(MapPoint targetPoint)
         {
