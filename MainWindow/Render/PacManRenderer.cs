@@ -1,21 +1,32 @@
 using Cairo;
+using GameServer.GameObjects;
 
 namespace MainWindow.Render
 {
-    public class PacManRenderer
+    
+    // TODO: Implement animation
+    public class PacManRenderer : IRenderer
     {
         private const int States = 3;
         
         private const string PacManDir = @"Sprites/Pac-Man";
         
-        private ImageSurface[,] _pacManSurface;
+        private readonly ImageSurface[,] _pacManSurface;
         
         private float _prefRenderPositionX;
 
         private float _prefRenderPositionY;
+        
+        private readonly float _scaleX;
+
+        private readonly float _scaleY;
+        
+        public float Alpha { get; set; }
 
         public PacManRenderer()
         {
+            _scaleX = _scaleY = 8;
+            
             _pacManSurface = new[,]
             {
                 {new ImageSurface($"{PacManDir}/Move_Right/Full.png"), 
@@ -32,5 +43,25 @@ namespace MainWindow.Render
                     new ImageSurface($"{PacManDir}/Move_Up/OpenMouth.png")},
             };
         }
+        
+        public void Draw(Context cr)
+        {
+            var pacMan = PacMan.GetInstance;
+
+            var renderPositionX = _scaleX * (_prefRenderPositionX * Alpha + pacMan.Position.Column * (1.0f - Alpha));
+            
+            var renderPositionY = _scaleY * (_prefRenderPositionY * Alpha + pacMan.Position.Row * (1.0f - Alpha));
+            
+            cr.Translate(renderPositionX - 3, renderPositionY- 26);
+            cr.SetSource(_pacManSurface[(int)pacMan.Direction, 2]);
+            
+            cr.Paint();
+
+            cr.Translate(-renderPositionX + 3, -renderPositionY+ 26);
+
+            _prefRenderPositionX = renderPositionX / _scaleX;
+            _prefRenderPositionY = renderPositionY / _scaleY;
+        }
+
     }
 }
