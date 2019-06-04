@@ -10,17 +10,11 @@ namespace GameServer.GameMap
         private static readonly int[] ShiftX = {1, 0, -1, 0};
 
         private static readonly int[] ShiftY = {0, 1, 0, -1};
-
-        public MapPoint(int row, int column)
-        {
-            Row = row;
-            Column = column;
-        }
-
+        
         public int Row { get; set; }
         
         public int Column { get; set; }
-
+        
         public MapPoint this[MoveDirection direction]
         {
             get
@@ -30,6 +24,8 @@ namespace GameServer.GameMap
                 return new MapPoint(Row + ShiftY[ind], Column + ShiftX[ind]);
             }
         }
+
+        public int LengthSquared => Row * Row + Column * Column;
         
         public IEnumerable<MapPoint> GetNeighbours
         {
@@ -44,6 +40,12 @@ namespace GameServer.GameMap
 
                 return neighbours;
             }
+        }
+
+        public MapPoint(int row, int column)
+        {
+            Row = row;
+            Column = column;
         }
         
         public bool IsValid(Map map)  => Row > 0 && Column > 0 && Row < map.Height && Column < map.Width;

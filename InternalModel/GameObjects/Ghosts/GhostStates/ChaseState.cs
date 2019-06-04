@@ -36,7 +36,9 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
                 return;
             
             _ghost.State = new ScatterState(_ghost);
-            direction = _ghost.Direction;
+
+            if (direction == _ghost.Direction)
+                direction = (MoveDirection)(((int)_ghost.Direction + 2) % MapPoint.CountNeighbour);
         }
         
         public MoveDirection ChooseDirection(MapPoint startPoint)

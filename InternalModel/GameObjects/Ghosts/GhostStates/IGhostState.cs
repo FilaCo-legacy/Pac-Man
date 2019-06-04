@@ -1,8 +1,10 @@
+using GameServer.GameMap;
+
 namespace GameServer.GameObjects.Ghosts.GhostStates
 {
     public interface IGhostState
     {
-        MoveDirection ChooseDirection();
+        MoveDirection ChooseDirection(MapPoint startPoint);
         
         int Ticks { get; }
     }
