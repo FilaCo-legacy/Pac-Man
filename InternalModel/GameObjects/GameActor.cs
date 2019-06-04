@@ -5,11 +5,11 @@ namespace GameServer.GameObjects
     public abstract class GameActor : IActor
     {
         private int _elapsedTicks;
-        
+
         protected abstract int Ticks { get; }
-        
+
         public MapPoint Position { get; set; }
-        
+
         public MoveDirection Direction { get; set; }
 
         public GameActor()
@@ -17,19 +17,20 @@ namespace GameServer.GameObjects
             _elapsedTicks = 0;
         }
 
-        public void Act()
+        protected virtual bool CanMove(MapObjCode targetEntry)
+        {
+            return targetEntry != MapObjCode.Wall;
+        }
+
+        public virtual void Act()
         {
             ++_elapsedTicks;
 
             if (_elapsedTicks < Ticks)
                 return;
 
-            Position = Position[Direction];
-        }
-
-        public void StepBack()
-        {
-            
+            if (CanMove(Map.GetInstance[Position[Direction]]))
+                Position = Position[Direction];
         }
     }
 }

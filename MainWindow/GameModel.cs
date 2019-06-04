@@ -11,15 +11,13 @@ namespace MainWindow
 
         public IScene Scene { get; }
         
-        public IMap Map { get; }
         
         public IGameWindow Window { get; set; }
 
         public float DeltaTime { get; set; }
 
-        public GameModel(IScene scene, IMap map, IGameWindow window, float fps = 60)
+        public GameModel(IScene scene, IGameWindow window, float fps = 60)
         {
-            Map = map;
             Window = window;
             Scene = scene;
             DeltaTime = 1 / fps;
