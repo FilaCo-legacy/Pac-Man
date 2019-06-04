@@ -1,12 +1,9 @@
-using System.Collections.Generic;
-using System.Diagnostics;
 using GameServer.GameMap;
 
 namespace GameServer.GameObjects.Ghosts.GhostStates
 {
-    public class RespawnState:IGhostState
+    public class RespawnState : IGhostState
     {
-
         private readonly Ghost _ghost;
 
         public int Ticks => 5;
@@ -15,14 +12,13 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
         {
             _ghost = ghost;
         }
-        
+
         private static bool CanMove(MapPoint targetPoint)
         {
             var map = Map.GetInstance;
 
             return targetPoint.IsValid(map) && map[targetPoint] != MapObjCode.Wall;
         }
-        
         
         public MoveDirection ChooseDirection(MapPoint startPoint)
         {
@@ -41,17 +37,15 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
             {
                 var curNeighbour = startPoint[(MoveDirection) curDir];
 
-                if (curNeighbour == _ghost.Position || !CanMove(curNeighbour) || 
+                if (curNeighbour == _ghost.Position || !CanMove(curNeighbour) ||
                     (targetPoint - curNeighbour).LengthSquared >= minDistance)
                     continue;
-                
-                direction = (MoveDirection)curDir;
+
+                direction = (MoveDirection) curDir;
                 minDistance = (targetPoint - curNeighbour).LengthSquared;
             }
 
             return direction;
         }
-
-        
     }
 }
