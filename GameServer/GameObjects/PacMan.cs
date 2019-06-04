@@ -5,7 +5,7 @@ namespace GameServer.GameObjects
 {
     public class PacMan : IActor
     {
-        private const int Ticks = 20;
+        private const int Ticks = 10;
         
         private static readonly PacMan Instance = new PacMan();
 
@@ -24,6 +24,8 @@ namespace GameServer.GameObjects
 
         public void Act()
         {
+            ++ElapsedTicks;
+            
             if (ElapsedTicks < Ticks)
                 return;
             

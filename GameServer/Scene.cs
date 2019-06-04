@@ -27,11 +27,16 @@ namespace GameServer
         /// </summary>
         public void Update()
         {
-            var actorsMove = new List<Task>();
+            foreach (var actor in _actors)
+            {
+                actor.Act();
+            }
             
-            actorsMove.AddRange(_actors.Select(curActor => Task.Run(curActor.Act)));
+            //var actorsMove = new List<Task>();
+            
+            //actorsMove.AddRange(_actors.Select(curActor => Task.Run(curActor.Act)));
 
-            Task.WhenAll(actorsMove).Wait();
+            //Task.WhenAll(actorsMove).Wait();
         }
 
         public void Add(IActor actor)

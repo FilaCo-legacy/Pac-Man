@@ -16,7 +16,7 @@ namespace GameServer
 
         public float DeltaTime { get; set; }
 
-        public GameModel(IScene scene, float fps = 60)
+        public GameModel(IScene scene, float fps = 25)
         {
             Scene = scene;
             DeltaTime = 1 / fps;
@@ -47,12 +47,12 @@ namespace GameServer
                     while (accumulator > DeltaTime)
                     {
                         Scene.Update();
+                        
                         accumulator -= DeltaTime;
                     }
                     
                     OnStepFinished(this,
                         new StepFinishedEventArgs(accumulator / DeltaTime));
-                    PacMan.GetInstance.ElapsedTicks++;
                 }
         }
 
