@@ -23,37 +23,6 @@ namespace MainWindow
             WidthRequest = 224;
         }
 
-        private void DrawFood(Context cr)
-        {
-            cr.Translate(0, -_scaleY*4);
-
-            var map = GameServer.GameMap.Map.GetInstance;
-            
-            for (var row = 0; row < map.Height; ++row)
-            {
-                cr.Translate( 0, _scaleY);
-                for (var col = 0; col < map.Width; ++col)
-                {
-                    if (map[row, col] == MapObjCode.Food)
-                    {
-                        cr.SetSource(_foodSurface);
-                        cr.Paint();
-                    }
-                    else if (map[row, col] == MapObjCode.Energizer)
-                    {
-                        cr.SetSource(_energizerSurface);
-                        cr.Paint();
-                    }
-                    cr.Translate(_scaleX, 0);
-                    
-                }
-                cr.Translate(- map.Width*_scaleX, 0);
-            }
-            
-            cr.Translate(0, - map.Height*_scaleY);
-            cr.Translate(0, 4*_scaleY);
-        }
-
         private void DrawPacMan(Context cr)
         {
             var pacMan = PacMan.GetInstance;
