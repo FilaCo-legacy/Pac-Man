@@ -17,9 +17,11 @@ namespace GameServer.GameObjects
             _elapsedTicks = 0;
         }
 
-        protected virtual bool CanMove(MapObjCode targetEntry)
+        protected virtual bool CanMove(MapPoint targetPoint)
         {
-            return targetEntry != MapObjCode.Wall;
+            var map = Map.GetInstance;
+
+            return targetPoint.IsValid(map) && map[targetPoint] != MapObjCode.Wall;
         }
 
         public virtual void Act()
@@ -29,7 +31,7 @@ namespace GameServer.GameObjects
             if (_elapsedTicks < Ticks)
                 return;
 
-            if (CanMove(Map.GetInstance[Position[Direction]]))
+            if (CanMove(Position[Direction]))
                 Position = Position[Direction];
         }
     }
