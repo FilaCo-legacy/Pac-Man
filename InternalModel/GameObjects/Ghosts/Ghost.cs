@@ -4,17 +4,13 @@ using GameServer.GameObjects.Ghosts.GhostStates;
 
 namespace GameServer.GameObjects.Ghosts
 {
-    public abstract class Ghost : IActor
+    public abstract class Ghost : GameActor
     {
         public IGhostState State { private get; set; }
-        
-        public MapPoint Position { get; set; }
 
         protected Ghost()
         {
             
         }
-
-        public void Act() => State.Act();
     }
 }

@@ -2,13 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GameServer.GameObjects;
-using GameServer.GameObjects.Ghosts;
 
 namespace GameServer
 {
     /// <summary>
     /// Makes all movable game objects to move async.
-    /// It is an implementation of the Singletone Pattern
     /// </summary>
     public class Scene : IScene
     {
@@ -19,7 +17,7 @@ namespace GameServer
 
         public Scene()
         {
-            _actors = new List<IActor>{PacMan.GetInstance};
+            _actors = new List<IActor>();
         }
 
         /// <summary>
@@ -27,16 +25,11 @@ namespace GameServer
         /// </summary>
         public void Update()
         {
-            foreach (var actor in _actors)
-            {
-                actor.Act();
-            }
+            var actorsMove = new List<Task>();
             
-            //var actorsMove = new List<Task>();
-            
-            //actorsMove.AddRange(_actors.Select(curActor => Task.Run(curActor.Act)));
+            actorsMove.AddRange(_actors.Select(curActor => Task.Run(curActor.Act)));
 
-            //Task.WhenAll(actorsMove).Wait();
+            Task.WhenAll(actorsMove).Wait();
         }
 
         public void Add(IActor actor)

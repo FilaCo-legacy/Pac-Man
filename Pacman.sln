@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainWindow", "MainWindow\MainWindow.csproj", "{845FC786-E785-4ECE-A147-5D1BC7B26016}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServer", "GameServer\GameServer.csproj", "{633991B7-049B-43CE-BCE1-90718AE9FB58}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternalModel", "InternalModel\InternalModel.csproj", "{633991B7-049B-43CE-BCE1-90718AE9FB58}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

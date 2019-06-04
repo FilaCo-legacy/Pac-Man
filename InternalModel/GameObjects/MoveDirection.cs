@@ -5,6 +5,6 @@ namespace GameServer.GameObjects
         Right,
         Down,
         Left,
-        Up
+        Up,
     }
 }

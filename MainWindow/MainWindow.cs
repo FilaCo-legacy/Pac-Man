@@ -13,7 +13,7 @@ using Window = Gtk.Window;
 
 namespace MainWindow
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IGameWindow
     {
         public MainWindow() : this(new Builder("MainWindow.glade"))
         {
@@ -30,9 +30,9 @@ namespace MainWindow
             Close();
         }
 
-        public void OnStepFinished(object sender, StepFinishedEventArgs args)
+        public void RenderGameFrame(float alpha)
         {
-            MainSheet_PacManSheet.SetAlpha(args.Alpha);
+            MainSheet_PacManSheet.SetAlpha(alpha);
             QueueDraw();
         }
 
@@ -42,16 +42,16 @@ namespace MainWindow
             switch (args.Event.Key)
             {
                case Key.Left:
-                    PacMan.GetInstance.Direction = MoveDirection.Left;
+                    
                     break;
                case Key.Up:
-                    PacMan.GetInstance.Direction = MoveDirection.Up;
+                    
                     break;
                case Key.Down:
-                    PacMan.GetInstance.Direction = MoveDirection.Down;
+                    
                     break;
                case Key.Right:
-                    PacMan.GetInstance.Direction = MoveDirection.Right;
+                    
                     break;
             }
         }
