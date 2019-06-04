@@ -19,6 +19,8 @@ namespace GameServer.GameMap
 
         public int EnergizerCount => 4;
 
+        public MapPoint GhostsRespawnPoint = new MapPoint(17, 13);
+
         public MapObjCode this[int row, int column]
         {
             get
