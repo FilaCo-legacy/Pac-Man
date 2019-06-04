@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Cairo;
 using GameServer;
 using GameServer.GameMap;
@@ -6,83 +7,20 @@ using GameServer.GameObjects;
 using Gdk;
 using GLib;
 using Gtk;
+using MainWindow.Render;
 using Color = Cairo.Color;
 
 namespace MainWindow
 {
     public class PacManSheet: DrawingArea
     {
-        private const int States = 3;
-        
-        private const string PacManDir = @"Sprites/Pac-Man";
-
-        private const string GhostsDir = @"Sprites/Ghosts";
-
-        private const string FoodDir = @"Sprites/Food";
-
-        private const string MapPath = @"Map.png";
-
-        private ImageSurface _mapSurface;
-
-        private ImageSurface _foodSurface;
-
-        private ImageSurface _energizerSurface;
-
-        private ImageSurface[,] _pacManSurface;
-
-        private float _prefRenderPositionX;
-
-        private float _prefRenderPositionY;
-        
-        private float _scaleX;
-
-        private float _scaleY;
-
-        private float _alpha;
+        private readonly IEnumerable<IRenderer> _renderers;
 
         public PacManSheet()
         {
-            InitSurfaces();
-            _scaleX = _mapSurface.Width * 1.0f / GameServer.GameMap.Map.GetInstance.Width;
-            _scaleY = _mapSurface.Height * 1.0f / (GameServer.GameMap.Map.GetInstance.Height - 5);
-            _prefRenderPositionX = PacMan.GetInstance.Position.Column;
-            _prefRenderPositionY = PacMan.GetInstance.Position.Row;
-        }
-
-        private void InitSurfaces()
-        {
-            _mapSurface = new ImageSurface(MapPath);
-            _foodSurface = new ImageSurface($"{FoodDir}/Food.png");
-            _energizerSurface = new ImageSurface($"{FoodDir}/Energizer.png");
-            
-            _pacManSurface = new[,]
-            {
-                {new ImageSurface($"{PacManDir}/Move_Right/Full.png"), 
-                    new ImageSurface($"{PacManDir}/Move_Right/Intermediate.png"), 
-                    new ImageSurface($"{PacManDir}/Move_Right/OpenMouth.png")},
-                {new ImageSurface($"{PacManDir}/Move_Down/Full.png"), 
-                    new ImageSurface($"{PacManDir}/Move_Down/Intermediate.png"), 
-                    new ImageSurface($"{PacManDir}/Move_Down/OpenMouth.png")},
-                {new ImageSurface($"{PacManDir}/Move_Left/Full.png"), 
-                    new ImageSurface($"{PacManDir}/Move_Left/Intermediate.png"), 
-                    new ImageSurface($"{PacManDir}/Move_Left/OpenMouth.png")},
-                {new ImageSurface($"{PacManDir}/Move_Up/Full.png"), 
-                    new ImageSurface($"{PacManDir}/Move_Up/Intermediate.png"), 
-                    new ImageSurface($"{PacManDir}/Move_Up/OpenMouth.png")},
-            };
-        }
-
-        private void DrawMap(Context cr)
-        {
-            if (AllocatedHeight < _mapSurface.Height)
-                HeightRequest = _mapSurface.Height;
-            
-            if (AllocatedWidth < _mapSurface.Height)
-                WidthRequest = _mapSurface.Width;
-
-            cr.SetSource(_mapSurface);
-            
-            cr.Paint();
+            _renderers = new List<IRenderer>();
+            HeightRequest = 248;
+            WidthRequest = 224;
         }
 
         private void DrawFood(Context cr)
@@ -137,16 +75,20 @@ namespace MainWindow
 
         protected override bool OnDrawn(Context cr)
         {
-            DrawMap(cr);
-            DrawFood(cr);
-            DrawPacMan(cr);
+            foreach (var curRenderer in _renderers)
+            {
+                curRenderer.Draw(cr);
+            }
             
             return true;
         }
 
         public void SetAlpha(float alpha)
         {
-            _alpha = alpha;
+            foreach (var curRenderer in _renderers)
+            {
+                curRenderer.Alpha = alpha;
+            }
         }
     }
 }
