@@ -1,13 +1,13 @@
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using GameServer;
+using GameServer.GameMap;
 
 namespace MainWindow
 {
     public class GameModel
     {
-        private readonly float _maxValueAccum;
+        private  const float MaxValueAccum = 0.2f;
 
         public IScene Scene { get; }
         
@@ -15,40 +15,37 @@ namespace MainWindow
 
         public float DeltaTime { get; set; }
 
-        public GameModel(IScene scene, IGameWindow window, float fps = 30)
+        public GameModel(IScene scene, IGameWindow window, float fps = 60)
         {
             Window = window;
             Scene = scene;
             DeltaTime = 1 / fps;
-            _maxValueAccum = DeltaTime * 5;
         }
 
         public void Execute()
         {
             var accumulator = 0.0f;
-            var frameTimeStart = DateTime.Now;
+            var frameStartTime = DateTime.Now;
 
             while (true)
             {
-                var elapsedMilliseconds = (DateTime.Now - frameTimeStart).TotalMilliseconds;
+                var curTime = DateTime.Now;
+                var elapsedSeconds = (curTime - frameStartTime).TotalSeconds;
 
-                accumulator += (float)elapsedMilliseconds/1000.0f;
+                frameStartTime = curTime;
 
-                if (accumulator > _maxValueAccum)
-                    accumulator = _maxValueAccum;
+                accumulator += (float) elapsedSeconds;
 
-                while (DateTime.Now > frameTimeStart && accumulator >= DeltaTime)
+                if (accumulator > MaxValueAccum)
+                    accumulator = MaxValueAccum;
+
+                while (accumulator >= DeltaTime)
                 {
                     Scene.Update();
 
                     accumulator -= DeltaTime;
-
-                    frameTimeStart = frameTimeStart.AddSeconds(DeltaTime);
                 }
-                
-                if (frameTimeStart > DateTime.Now)
-                    frameTimeStart = DateTime.Now;
-                
+
                 Window.RenderGameFrame(accumulator / DeltaTime);
             }
         }

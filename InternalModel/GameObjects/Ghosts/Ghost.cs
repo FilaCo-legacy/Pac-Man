@@ -10,7 +10,7 @@ namespace GameServer.GameObjects.Ghosts
         
         public IGhostState State { get; set; }
 
-        protected override int MillisecondsSkip => State.Ticks;
+        public override int Ticks => State.Ticks;
         
         public int TimesScatter { get; set; }
 

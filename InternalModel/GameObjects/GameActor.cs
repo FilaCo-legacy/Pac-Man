@@ -5,19 +5,15 @@ namespace GameServer.GameObjects
 {
     public abstract class GameActor : IActor
     {
-        private readonly Stopwatch _sw;
+        private int _elapsedTicks;
 
-        protected abstract int MillisecondsSkip { get; }
+        public abstract int Ticks { get; }
 
         public MapPoint Position { get; set; }
 
         public virtual MoveDirection Direction { get; set; }
 
-        public GameActor()
-        {
-            _sw = new Stopwatch();
-            _sw.Start();
-        }
+        public int ElapsedTicks => _elapsedTicks;
 
         protected virtual bool CanMove(MapPoint targetPoint)
         {
@@ -28,13 +24,14 @@ namespace GameServer.GameObjects
 
         public virtual void Act()
         {
-            if (_sw.ElapsedMilliseconds < MillisecondsSkip)
+            if (_elapsedTicks++ < Ticks)
                 return;
+            
+            _elapsedTicks = 0;
             
             if (CanMove(Position[Direction]))
                 Position = Position[Direction];
             
-            _sw.Restart();
         }
     }
 }

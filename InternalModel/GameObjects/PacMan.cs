@@ -5,15 +5,18 @@ namespace GameServer.GameObjects
 {
     public class PacMan : GameActor
     {
+        private const int States = 4;
+        
         private static readonly PacMan Instance = new PacMan();
-
+        public static PacMan GetInstance => Instance;
+        
         private MoveDirection _direction;
 
         private MoveDirection _requestDirection;
         
-        public static PacMan GetInstance => Instance;
+        public override int Ticks => 30;
         
-        protected override int MillisecondsSkip => 150;
+        public int State { get; private set; }
 
         public override MoveDirection Direction
         {
@@ -30,11 +33,19 @@ namespace GameServer.GameObjects
         private PacMan()
         {
             Position = Map.GetInstance.StartPacManLocation;
+            State = 0;
         }
         
         protected override bool CanMove(MapPoint targetPoint)
         {
             return base.CanMove(targetPoint) && Map.GetInstance[targetPoint] != MapObjCode.Door;
+        }
+
+        public override void Act()
+        {
+            if (ElapsedTicks == Ticks)
+                State = (State + 1) % States;
+            base.Act();
         }
     }
 }

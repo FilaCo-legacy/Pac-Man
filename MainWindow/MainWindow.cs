@@ -33,7 +33,7 @@ namespace MainWindow
 
         public void RenderGameFrame(float alpha)
         {
-            MainSheet_PacManSheet.SetAlpha(alpha);
+            MainSheet_PacManSheet.RenderBuffer(alpha);
             QueueDraw();
         }
 
