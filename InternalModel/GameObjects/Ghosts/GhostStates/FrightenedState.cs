@@ -15,7 +15,7 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
 
         private readonly Stopwatch _sw;
 
-        public int Ticks => 60;
+        public int Ticks => 12;
 
         public int AnimateStates => 2;
 
@@ -57,7 +57,8 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
             
             CheckTimeElapsed();
             
-            return possibleDirections[Rnd.Next(0, possibleDirections.Count)];
+            return possibleDirections.Count > 0 ? possibleDirections[Rnd.Next(0, possibleDirections.Count)] : 
+                (MoveDirection)(((int)_ghost.Direction + 2) % MapPoint.CountNeighbour);
         }
     }
 }

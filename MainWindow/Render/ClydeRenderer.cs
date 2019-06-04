@@ -1,13 +1,18 @@
 using Cairo;
 using GameServer.GameObjects.Ghosts;
+using GameServer.GameObjects.Ghosts.GhostStates;
 
 namespace MainWindow.Render
 {
     public class ClydeRenderer:IRenderer
     {
         private const string ClydeDir = @"Sprites/Ghosts/Clyde";
+        
+        private const string FrightenedDir = @"Sprites/Ghosts/Frightened";
 
         private readonly ImageSurface[,] _clydeSurface;
+        
+        private readonly ImageSurface[] _frighetenedSurface;
 
         private float _prefRenderPositionX;
 
@@ -44,6 +49,13 @@ namespace MainWindow.Render
                     new ImageSurface($"{ClydeDir}/Move_Up/Step2.png")
                 },
             };
+
+            _frighetenedSurface = new[]
+            {
+                new ImageSurface($"{FrightenedDir}/Step1.png"),
+                new ImageSurface($"{FrightenedDir}/Step2.png")
+            };
+
         }
 
         public void Draw(Context cr)
@@ -55,7 +67,10 @@ namespace MainWindow.Render
             var renderPositionY = _prefRenderPositionY * Alpha + _scaleY * clyde.Position.Row * (1.0f - Alpha);
 
             cr.Translate(renderPositionX - 3, renderPositionY - 26);
-            cr.SetSource(_clydeSurface[(int) clyde.Direction, clyde.AnimateState]);
+
+            cr.SetSource(clyde.State is FrightenedState
+                ? _frighetenedSurface[clyde.AnimateState]
+                : _clydeSurface[(int) clyde.Direction, clyde.AnimateState]);
 
             cr.Paint();
 

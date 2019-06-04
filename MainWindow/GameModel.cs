@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using GameServer;
 using GameServer.GameMap;
+using GameServer.GameObjects;
 
 namespace MainWindow
 {
@@ -9,6 +10,8 @@ namespace MainWindow
     {
         private  const float MaxValueAccum = 0.2f;
 
+        private IActorsChecker _checker;
+        
         public IScene Scene { get; }
         
         public IGameWindow Window { get; set; }
@@ -20,6 +23,7 @@ namespace MainWindow
             Window = window;
             Scene = scene;
             DeltaTime = 1 / fps;
+            _checker = new ActorsChecker();
         }
 
         public void Execute()
@@ -29,10 +33,9 @@ namespace MainWindow
 
             while (true)
             {
-                var curTime = DateTime.Now;
-                var elapsedSeconds = (curTime - frameStartTime).TotalSeconds;
+                var elapsedSeconds = (DateTime.Now - frameStartTime).TotalSeconds;
 
-                frameStartTime = curTime;
+                frameStartTime = DateTime.Now;
 
                 accumulator += (float) elapsedSeconds;
 
@@ -42,6 +45,7 @@ namespace MainWindow
                 while (accumulator >= DeltaTime)
                 {
                     Scene.Update();
+                    _checker.Check();
 
                     accumulator -= DeltaTime;
                 }

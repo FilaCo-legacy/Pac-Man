@@ -6,7 +6,7 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
     {
         private readonly Ghost _ghost;
 
-        public int Ticks => 15;
+        public int Ticks => 3;
 
         public int AnimateStates => 1;
 

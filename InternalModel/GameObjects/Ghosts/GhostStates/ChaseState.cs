@@ -12,7 +12,7 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
         
         private readonly Stopwatch _sw;
         
-        public int Ticks => 30;
+        public int Ticks => 6;
 
         public int AnimateStates => 2;
 

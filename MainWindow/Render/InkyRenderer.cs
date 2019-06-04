@@ -1,13 +1,18 @@
 using Cairo;
 using GameServer.GameObjects.Ghosts;
+using GameServer.GameObjects.Ghosts.GhostStates;
 
 namespace MainWindow.Render
 {
     public class InkyRenderer : IRenderer
     {
         private const string InkyDir = @"Sprites/Ghosts/Inky";
+        
+        private const string FrightenedDir = @"Sprites/Ghosts/Frightened";
 
         private readonly ImageSurface[,] _inkySurface;
+        
+        private readonly ImageSurface[] _frighetenedSurface;
 
         private float _prefRenderPositionX;
 
@@ -44,6 +49,12 @@ namespace MainWindow.Render
                     new ImageSurface($"{InkyDir}/Move_Up/Step2.png")
                 },
             };
+            
+            _frighetenedSurface = new[]
+            {
+                new ImageSurface($"{FrightenedDir}/Step1.png"),
+                new ImageSurface($"{FrightenedDir}/Step2.png")
+            };
         }
 
         public void Draw(Context cr)
@@ -55,7 +66,11 @@ namespace MainWindow.Render
             var renderPositionY = _prefRenderPositionY * Alpha + _scaleY * inky.Position.Row * (1.0f - Alpha);
 
             cr.Translate(renderPositionX - 3, renderPositionY - 26);
-            cr.SetSource(_inkySurface[(int) inky.Direction, inky.AnimateState]);
+            
+            if (inky.State is FrightenedState)
+                cr.SetSource(_frighetenedSurface[inky.AnimateState]);
+            else
+                cr.SetSource(_inkySurface[(int) inky.Direction, inky.AnimateState]);
 
             cr.Paint();
 

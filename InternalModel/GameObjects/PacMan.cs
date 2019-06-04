@@ -12,7 +12,7 @@ namespace GameServer.GameObjects
 
         private MoveDirection _requestDirection;
         
-        public override int Ticks => 30;
+        public override int Ticks => 6;
 
         public override int AnimateStates => 4;
 
