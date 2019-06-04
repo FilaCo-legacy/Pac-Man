@@ -1,17 +1,68 @@
+using System.Collections.Generic;
+using System.Diagnostics;
+using GameServer.GameMap;
+
 namespace GameServer.GameObjects.Ghosts.GhostStates
 {
     public class ChaseState:IGhostState
     {
-        public void Act()
+        private const int SecondsLength = 20;
+        
+        private readonly Ghost _ghost;
+        
+        private readonly Stopwatch _sw;
+        
+        public int Ticks => 10;
+
+        public ChaseState(Ghost ghost)
         {
-            throw new System.NotImplementedException();
+            _ghost = ghost;
+            
+            _sw = new Stopwatch();
+            _sw.Start();
+        }
+        
+        private static bool CanMove(MapPoint targetPoint)
+        {
+            var map = Map.GetInstance;
+
+            return targetPoint.IsValid(map) && map[targetPoint] != MapObjCode.Wall &&
+                   map[targetPoint] != MapObjCode.Door;
         }
 
-        public MoveDirection Direction { get; }
-
-        public void GameLoop_StepFinished(object sender, StepFinishedEventArgs args)
+        private void CheckTimeElapsed(ref MoveDirection direction)
         {
-            throw new System.NotImplementedException();
+            if (_sw.ElapsedMilliseconds / 1000 < SecondsLength)
+                return;
+            
+            _ghost.State = new ScatterState(_ghost);
+            direction = _ghost.Direction;
         }
+        
+        public MoveDirection ChooseDirection(MapPoint startPoint)
+        {
+            var targetPoint = _ghost.TargetPointChase;
+
+            var direction = MoveDirection.Left;
+            var minDistance = 1e9;
+
+            for (var curDir = 0; curDir < MapPoint.CountNeighbour; ++curDir)
+            {
+                var curNeighbour = startPoint[(MoveDirection) curDir];
+
+                if (curNeighbour == _ghost.Position || !CanMove(curNeighbour) || 
+                    (targetPoint - curNeighbour).LengthSquared >= minDistance)
+                    continue;
+                
+                direction = (MoveDirection)curDir;
+                minDistance = (targetPoint - curNeighbour).LengthSquared;
+            }
+            
+            CheckTimeElapsed(ref direction);
+
+            return direction;
+        }
+
+        
     }
 }
