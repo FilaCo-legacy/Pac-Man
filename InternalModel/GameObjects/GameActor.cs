@@ -5,7 +5,7 @@ namespace GameServer.GameObjects
 {
     public abstract class GameActor : IActor
     {
-        private int _elapsedTicks;
+        protected int _elapsedTicks;
 
         public abstract int Ticks { get; }
         

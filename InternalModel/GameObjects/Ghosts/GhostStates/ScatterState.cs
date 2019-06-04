@@ -27,7 +27,8 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
         {
             var map = Map.GetInstance;
 
-            return targetPoint.IsValid(map) && map[targetPoint] != MapObjCode.Wall;
+            return targetPoint.IsValid(map) && map[targetPoint] != MapObjCode.Wall &&
+                   map[targetPoint] != MapObjCode.Door;
         }
 
         private void CheckTimeElapsed(ref MoveDirection direction)

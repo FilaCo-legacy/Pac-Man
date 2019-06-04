@@ -2,15 +2,15 @@ using GameServer.GameMap;
 
 namespace GameServer.GameObjects.Ghosts.GhostStates
 {
-    public class RespawnState : IGhostState
+    public class BeginState : IGhostState
     {
         private readonly Ghost _ghost;
 
-        public int Ticks => 15;
+        public int Ticks => 30;
 
-        public int AnimateStates => 1;
+        public int AnimateStates => 2;
 
-        public RespawnState(Ghost ghost)
+        public BeginState(Ghost ghost)
         {
             _ghost = ghost;
         }
@@ -24,12 +24,12 @@ namespace GameServer.GameObjects.Ghosts.GhostStates
         
         public MoveDirection ChooseDirection(MapPoint startPoint)
         {
-            var targetPoint = Map.GetInstance.GhostsRespawnPoint;
+            var targetPoint = Ghost.TargetBeginPoint;
 
             if (startPoint == targetPoint)
             {
-                _ghost.State = new BeginState(_ghost);
-                return _ghost.State.ChooseDirection(startPoint);
+                _ghost.State = new ScatterState(_ghost);
+                return MoveDirection.Left;
             }
 
             var direction = MoveDirection.Left;

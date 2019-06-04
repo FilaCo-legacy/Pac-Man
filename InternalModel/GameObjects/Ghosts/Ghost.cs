@@ -18,15 +18,20 @@ namespace GameServer.GameObjects.Ghosts
         public abstract MapPoint TargetPointScatter { get; }
         
         public abstract MapPoint TargetPointChase { get; }
+        
+        public static MapPoint TargetBeginPoint => new MapPoint(14, 13);
 
         protected Ghost()
         {
-            State = new ScatterState(this);
+            State = new BeginState(this);
         }
 
         public override void Act()
         {
-            var nextDir = State.ChooseDirection(Position[Direction]);
+            var nextDir = Direction;
+            
+            if (_elapsedTicks == Ticks)
+                 nextDir = State.ChooseDirection(Position[Direction]);
             
             base.Act();
 
